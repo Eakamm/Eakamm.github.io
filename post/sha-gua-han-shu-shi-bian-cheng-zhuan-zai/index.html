@@ -3,102 +3,130 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>傻瓜函数式编程（转载） | 刘志豪的博客</title>
-<link rel="shortcut icon" href="https://Eakamm.github.io/favicon.ico?v=1599550170466">
-<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<meta name="description" content="温故而知新" />
+<link rel="shortcut icon" href="https://Eakamm.github.io/favicon.ico">
 <link rel="stylesheet" href="https://Eakamm.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="傻瓜函数式编程（转载） | 刘志豪的博客 - Atom Feed" href="https://Eakamm.github.io/atom.xml">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
-
-
+<script src="https://Eakamm.github.io/media/js/jquery.min.js"></script>
+<script src="https://Eakamm.github.io/media/js/masonry.pkgd.min.js"></script>
+<script src="https://Eakamm.github.io/media/js/aos.js"></script>
+<script src="https://Eakamm.github.io/media/js/pace.min.js"></script>
+<script src="https://Eakamm.github.io/media/js/view-image.min.js"></script>
+<script src="https://Eakamm.github.io/media/js/jquery.magnific-popup.min.js"></script>
+<script src="https://Eakamm.github.io/media/js/functions.js"></script>
+    <meta name="referrer" content="never">
     <meta name="description" content="译者：justinyhuang
 这篇文章是原文《Functional Programming For The Rest of Us》的中文翻译。
 因为懒，在知道有这篇文章的时候我Google了若干篇中文翻译版，打算在吃午饭的时候随便扫扫了解..." />
     <meta name="keywords" content="" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
-    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+    <script src="https://Eakamm.github.io/media/js/waterfall.min.js"></script>
+    <script src="https://Eakamm.github.io/media/js/prism.min.js"></script>
   </head>
   <body>
-    <div class="main">
-      <div class="main-content">
-        <div class="site-header">
-  <a href="https://Eakamm.github.io">
-  <img class="avatar" src="https://Eakamm.github.io/images/avatar.png?v=1599550170466" alt="">
-  </a>
-  <h1 class="site-title">
-    刘志豪的博客
-  </h1>
-  <p class="site-description">
-    温故而知新
-  </p>
-  <div class="menu-container">
-    
-      
-        <a href="/" class="menu">
-          首页
-        </a>
-      
-    
-      
-        <a href="/archives" class="menu">
-          归档
-        </a>
-      
-    
-      
-        <a href="/tags" class="menu">
-          标签
-        </a>
-      
-    
-      
-        <a href="/post/about" class="menu">
-          关于
-        </a>
-      
-    
-  </div>
-  <div class="social-container">
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-  </div>
-</div>
+            <header id="header" class="grid-container">
+        <!-- start: .menu-wrapper -->
+        <div class="menu-mobile"> 
+          <i class="fa fa-reorder"></i>
+        </div>
+        <div class="menu-wrapper">
+          <div class="">
+            <div class="logo">
+              <a href="https://Eakamm.github.io"><img src="/media/images/logoo.png" alt=""></a>
+            </div>
+            <!-- start: .main-nav -->
 
-        <div class="post-detail">
-          <article class="post">
-            <h2 class="post-title">
-              傻瓜函数式编程（转载）
-            </h2>
-            <div class="post-info">
-              <span>
-                2020-09-08
-              </span>
-              <span>
-                59 min read
-              </span>
+            <nav class="main-nav grid-container grid-parent">
+              <ul id="menu-header" class="menu gradient-effect">
+                <li class=""><a href="https://Eakamm.github.io" class="menu">首页</a></li>
+                
+                  <li class="" >
+                    <a href="/" class="menu">
+                      首页
+                    </a>
+                  </li>
+                
+                  <li class="" >
+                    <a href="/archives" class="menu">
+                      归档
+                    </a>
+                  </li>
+                
+                  <li class="" >
+                    <a href="/tags" class="menu">
+                      标签
+                    </a>
+                  </li>
+                
+                  <li class="" >
+                    <a href="/post/about" class="menu">
+                      关于
+                    </a>
+                  </li>
+                
+                <li class="search-menu-item hide-on-mobile hide-on-tablet"><a href="#search-lightbox" class="lightbox mfp-inline"><i class="fa fa-search-line"></i></a></li>
+              </ul>
+            </nav>
+            <a href="#search-lightbox" class="lightbox epcl-search-button mfp-inline hide-on-tablet hide-on-desktop"><i class="fa fa-search-line"></i></a>
+            <!-- end: .main-nav -->
+            <div class="clear"></div>
+            <div class="border hide-on-tablet hide-on-mobile"></div>
+          </div>    
+          <div class="clear"></div>
+        </div>
+        <!-- end: .menu-wrapper -->
+        <div class="clear"></div>
+      </header>
+      <div class="hide-on-mobile hide-on-tablet hide-on-desktop">
+        <div id="search-lightbox" class="grid-container grid-small grid-parent mfp-hide">
+          <div class="search-wrapper section">
+            <form id="gridea-search-form" data-update="1599553483791" action="/search/index.html" class="search-form" _lpchecked="1">
+              <input type="text" name="q" id="s" value="" class="search-field" placeholder="搜点啥..." aria-label="搜点啥..." required="">
+              <button type="submit" class="submit" aria-label="Submit">
+                <i class="fa fa-search-line"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <main id="single" class="main grid-container fullcover no-sidebar aos-init aos-animate" data-aos="fade">
+
+        <div class="center content">
+          <div class="featured-image cover" style="background-image: url('https://Eakamm.github.io/post-images/sha-gua-han-shu-shi-bian-cheng-zhuan-zai.jpg');">
+            <div class="meta top"> 
+              <time class="meta-info" style="float:left;" datetime="2020-09-08"><i class="fa fa-calendar"></i><span class="lately">1 小时前</span></time>
+              
+              <a href="https://Eakamm.github.io/post/sha-gua-han-shu-shi-bian-cheng-zhuan-zai/#comments" class="comments meta-info" title="">
+                <i class="fa fa-comment remixicon"></i><span class="comment-count valine-comment-count" data-xid="/sha-gua-han-shu-shi-bian-cheng-zhuan-zai/"> </span>
+              </a>
+              <span id="/sha-gua-han-shu-shi-bian-cheng-zhuan-zai/" class="leancloud_visitors views-counter meta-info" title=""><i class="fa fa-leancloud remixicon"></i><span class="leancloud-visitors-count"></span></span>
               
             </div>
-            
-            <div class="post-content-wrapper">
-              <div class="post-content">
-                <p><a href="https://github.com/justinyhuang/Functional-Programming-For-The-Rest-of-Us-Cn">译者：justinyhuang</a><br>
+            <div class="info">
+              <div class="tags ">
+                
+              </div>
+              <h1 class="title ularge white bold">傻瓜函数式编程（转载）</h1>
+            </div>
+          </div>
+        </div>  
+
+        <div class="epcl-page-wrapper">
+          <div class="left-content grid-70 np-mobile">
+            <article class="main-article post">
+              <section class="post-content">
+                <div class="text">
+                  <p><a href="https://github.com/justinyhuang/Functional-Programming-For-The-Rest-of-Us-Cn">译者：justinyhuang</a><br>
 这篇文章是原文《<a href="http://www.defmacro.org/ramblings/fp.html">Functional Programming For The Rest of Us</a>》的中文翻译。<br>
+因为懒，在知道有这篇文章的时候我Google了若干篇中文翻译版，打算在吃午饭的时候随便扫扫了解一下。可是偏偏运气不太好，搜到的几篇翻译质量都不太理想：</p>
+<!-- more -->
+<p>这篇文章是原文《<a href="http://www.defmacro.org/ramblings/fp.html">Functional Programming For The Rest of Us</a>》的中文翻译。<br>
 因为懒，在知道有这篇文章的时候我Google了若干篇中文翻译版，打算在吃午饭的时候随便扫扫了解一下。可是偏偏运气不太好，搜到的几篇翻译质量都不太理想：有把“Is it edible”被翻译成“它可以被掌握吗”的，有把“calculus”翻译成“微积分”的，几乎所有的版本都把“With any luck your coworkers will start making fun of you for your FP comments in no time” 译为“很快你的同事就会开始取笑你对函数式编程的观点了”……读起来矛盾拗口让人担心会不会有其他地方出错引起误解，让人不敢再往下看。<br>
 看来还是“自己动手，丰衣足食”，我最终还是开始自己翻译这篇文章。<br>
 这个版本在追求“信达雅”的同时，希望在不改变原意的前提下用中文语气/语境来进行本土化表达。唯一的例外是专业术语，如continuation，关于术语的翻译有很多讨论，我倾向于不翻译直接用，这样对以后写程序以及和国际友人交流都有帮助。<br>
 如果您在阅读之后没有明显感到央视翻译腔的话，我的目的就算达到了。非常期待您的任何反馈。<br>
 对了，在翻译的同时，我还把这篇文章转成Markdown的格式以图更好的保存和传播。You are welcome Slava 😉</p>
 <p>译者 于 2013年</p>
-<!-- more -->
 <p>2006 年 6 月 19 日，星期一</p>
 <h3 id="开篇">开篇</h3>
 <p>我们这些码农做事都是很拖拉的。每天例行报到后，先来点咖啡，看看邮件还有 RSS 订阅的文章。然后翻翻新闻还有那些技术网站上的更新，再过一遍编程论坛口水区里那些无聊的论战。最后从头把这些再看一次以免错过什么精彩的内容。然后就可以吃午饭了。饭饱过后，回来盯着 IDE 发一会呆，再看看邮箱，再去搞杯咖啡。光阴似箭，可以回家了……</p>
@@ -440,114 +468,217 @@ inc2(); // returns 3;
 <sup name="f7">7</sup>反之则不一定成立。尽管有时候可以证明两段代码是等价的，但不是在所有的情况下都可以得出这样的结论。<a href="#a7">↩</a><br>
 <sup name="f8">8</sup>实际上这样做并不比栈上存储要慢，因为在引入<a href="http://zh.wikipedia.org/wiki/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6_(%E8%A8%88%E7%AE%97%E6%A9%9F%E7%A7%91%E5%AD%B8)">垃圾回收机制</a>后，内存分配操作的时间代价仅为 O(1)。<a href="#a8">↩</a></p>
 
-              </div>
-              <div class="toc-container">
-                <ul class="markdownIt-TOC">
-<li>
-<ul>
-<li>
-<ul>
-<li><a href="#%E5%BC%80%E7%AF%87">开篇</a></li>
-<li><a href="#%E5%85%AC%E5%9B%AD%E6%BC%AB%E6%AD%A5">公园漫步</a></li>
-<li><a href="#%E5%8E%86%E5%8F%B2%E5%9B%9E%E7%9C%B8sup-namea33sup">历史回眸<sup name="a3">3</sup></a></li>
-<li><a href="#%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B">函数式编程</a></li>
-<li><a href="#fp-%E4%B9%8B%E4%BC%98%E7%82%B9">FP 之优点</a>
-<ul>
-<li><a href="#%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95">单元测试</a></li>
-<li><a href="#%E8%B0%83%E8%AF%95%E6%9F%A5%E9%94%99">调试查错</a></li>
-<li><a href="#%E5%B9%B6%E5%8F%91%E6%89%A7%E8%A1%8C">并发执行</a></li>
-<li><a href="#%E7%83%AD%E9%83%A8%E7%BD%B2">热部署</a></li>
-<li><a href="#%E6%9C%BA%E5%99%A8%E8%BE%85%E5%8A%A9%E8%AF%81%E6%98%8E%E5%8F%8A%E4%BC%98%E5%8C%96">机器辅助证明及优化</a></li>
-</ul>
-</li>
-<li><a href="#%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0">高阶函数</a></li>
-<li><a href="#currying">Currying</a></li>
-<li><a href="#%E6%83%B0%E6%80%A7%E6%B1%82%E5%80%BC">惰性求值</a>
-<ul>
-<li><a href="#%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96">代码优化</a></li>
-<li><a href="#%E6%8A%BD%E8%B1%A1%E5%8C%96%E6%8E%A7%E5%88%B6%E7%BB%93%E6%9E%84">抽象化控制结构</a></li>
-<li><a href="#%E6%97%A0%E7%A9%B7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84">无穷数据结构</a></li>
-<li><a href="#%E4%B8%8D%E8%B6%B3%E4%B9%8B%E5%A4%84">不足之处</a></li>
-</ul>
-</li>
-<li><a href="#continuation">Continuation</a></li>
-<li><a href="#%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D">模式匹配</a></li>
-<li><a href="#closure">Closure</a></li>
-<li><a href="#%E8%B7%AF%E5%9C%A8%E4%BD%95%E6%96%B9">路在何方？</a></li>
-<li><a href="#%E6%AC%A2%E8%BF%8E%E8%81%94%E7%B3%BB">欢迎联系</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
+                </div>
+                <div class="clear"></div>
+              </section>
+            </article>
+            <div class="clear"></div>
+
+            <section class="related section">
+              
+              <article class="prev grid-50 tablet-grid-50 grid-parent">
+                <div class="thumb cover lazy loaded" style="background-image: url('https://Eakamm.github.io/media/images/gridea.jpg');"></div>
+                 <a href="https://Eakamm.github.io/post/springboot-ce-shi/" class="full-link"></a>
+                 <div class="info">
+                  <time datetime="2020-09-08">2020-09-08</time>
+                  <h4 class="title white no-margin">Springboot测试</h4>
+                </div>
+                 <span class="epcl-button red">
+                  <img src="https://Eakamm.github.io/media/images/left-arrow.svg" width="15" alt="Left Arrow">
+                </span>
+                <div class="overlay"></div>
+              </article>
+              
+              
+              <article class="next grid-50 tablet-grid-50 grid-parent">
+                <div class="thumb cover lazy loaded" style="background-image: url('https://Eakamm.github.io/media/images/gridea.jpg');"></div>
+                 <a href="https://Eakamm.github.io/post/es6-yu-fa-jian-tou-han-shu/" class="full-link"></a>
+                 <div class="info">
+                  <time datetime="2020-09-08">2020-09-08</time>
+                  <h4 class="title white no-margin">ES6语法箭头函数</h4>
+                </div>
+                 <span class="epcl-button red">
+                  <img src="https://Eakamm.github.io/media/images/right-arrow.svg" width="15" alt="Left Arrow">
+                </span>
+                <div class="overlay"></div>
+              </article>
+              
+
+                <div class="clear"></div>
+            </section>
+
+              <div class="clear"></div>
+              
+            
+              <div id="comments" class="bg-white hosted ">
+                <div class="clear"></div>
+<script>
+jQuery(document).ready(function($){
+    $('.vemoji-btn').text('😀');
+    $("#comments").on('click', 'span.vat',function(){
+        $(this).parent('div.vmeta').next("div.vcontent").after($("div.vwrap"));
+        $('textarea#veditor').focus();
+    })
+    if(window.location.hash){
+        var checkExist = setInterval(function() {
+            if ($(window.location.hash).length) {
+                $('html, body').animate({scrollTop: $(window.location.hash).offset().top-200}, 600);
+                clearInterval(checkExist);
+            }
+        }, 100);
+    }
+})
+</script>
 
               </div>
+            
+
             </div>
-          </article>
+          </div>
+      </main>
+
+          <footer id="footer" class="grid-container">
+        <div class="widgets row gradient-effect">
+            <div class="default-sidebar border-effect">
+              <div class="grid-33 tablet-grid-50 mobile-grid-100">
+                <section id="tag_cloud-2" class="widget widget_epcl_posts_thumbs underline-effect">
+                  <h4 class="widget-title title white bordered">最新文章</h4>
+                  
+                  
+                  <article class="item post-0 post type-post status-publish format-standard has-post-thumbnail hentry">
+                    <a href="https://Eakamm.github.io/post/springboot-ce-shi/" class="thumb hover-effect">
+                      <span class="fullimage cover" style="display:block;border-radius:50%;background-image: url('/media/images/gridea.jpg');"></span>
+                    </a>
+                    <div class="info gradient-effect">
+                      <time datetime="2020-09-08">2020-09-08</time>
+                      <h4 class="title usmall">
+                        <a href="https://Eakamm.github.io/post/springboot-ce-shi/">Springboot测试</a>
+                      </h4>
+                    </div>
+                    <div class="clear"></div>
+                  </article>
+                  
+                  
+                  
+                  <article class="item post-1 post type-post status-publish format-standard has-post-thumbnail hentry">
+                    <a href="https://Eakamm.github.io/post/sha-gua-han-shu-shi-bian-cheng-zhuan-zai/" class="thumb hover-effect">
+                      <span class="fullimage cover" style="display:block;border-radius:50%;background-image: url('https://Eakamm.github.io/post-images/sha-gua-han-shu-shi-bian-cheng-zhuan-zai.jpg');"></span>
+                    </a>
+                    <div class="info gradient-effect">
+                      <time datetime="2020-09-08">2020-09-08</time>
+                      <h4 class="title usmall">
+                        <a href="https://Eakamm.github.io/post/sha-gua-han-shu-shi-bian-cheng-zhuan-zai/">傻瓜函数式编程（转载）</a>
+                      </h4>
+                    </div>
+                    <div class="clear"></div>
+                  </article>
+                  
+                  
+                  
+                  <article class="item post-2 post type-post status-publish format-standard has-post-thumbnail hentry">
+                    <a href="https://Eakamm.github.io/post/es6-yu-fa-jian-tou-han-shu/" class="thumb hover-effect">
+                      <span class="fullimage cover" style="display:block;border-radius:50%;background-image: url('/media/images/gridea.jpg');"></span>
+                    </a>
+                    <div class="info gradient-effect">
+                      <time datetime="2020-09-08">2020-09-08</time>
+                      <h4 class="title usmall">
+                        <a href="https://Eakamm.github.io/post/es6-yu-fa-jian-tou-han-shu/">ES6语法箭头函数</a>
+                      </h4>
+                    </div>
+                    <div class="clear"></div>
+                  </article>
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  <div class="clear"></div>
+                </section>
+              </div>
+
+              <div class="grid-33 tablet-grid-50 mobile-grid-100">
+                <section id="tag_cloud-2" class="widget widget_tag_cloud underline-effect">
+                  <h4 class="widget-title title white bordered">标签云</h4>
+                  <div class="tagcloud">
+                    
+                      <a href="https://Eakamm.github.io/tag/c5epEfQ21/" class="ctag ctag-0 ctag-c5epEfQ21" aria-label="">Gridea</a>
+                    
+                  </div>
+                  <div class="clear"></div>
+                </section>
+              </div>
+
+              <div class="grid-33 tablet-grid-50 mobile-grid-100">
+                <section id="epcl_about-2" class="widget widget_epcl_about underline-effect">
+                  <h4 class="widget-title title white bordered">关于我</h4>
+                  <div class="avatar">
+                    <a href="" class="translate-effect thumb"><span class="fullimage cover" style="background-image: url(https://Eakamm.github.io/images/avatar.png);"></span></a>
+                  </div>
+                  <div class="info">
+                    <h4 class="title small author-name gradient-effect no-margin"><a href="">刘志豪的博客</a></h4>
+                    <p class="founder">温故而知新</p>
+                    <div class="social">
+                      
+                        
+                      
+                        
+                      
+                        
+                      
+                        
+                      
+                        
+                      
+                    </div> 
+                  </div>
+                  <div class="clear"></div>
+                  </section>
+              </div>
+
+            </div>
+            <div class="clear"></div>
         </div>
 
+        <div class="logo">
+          <a href="https://Eakamm.github.io"><img src="/media/images/gridea.png" alt=""></a>
+        </div>
+        <p class="published border-effect">
+          ©2019 共 7 篇文章
+          <br/>
+          Theme <a href="https://gridea.dev/" target="_blank">「breek」</a> Powered by <a href="https://gridea.dev/" target="_blank">「Gridea」</a>
+        </p>
         
-          <div class="next-post">
-            <div class="next">下一篇</div>
-            <a href="https://Eakamm.github.io/post/es6-yu-fa-jian-tou-han-shu/">
-              <h3 class="post-title">
-                ES6语法箭头函数
-              </h3>
-            </a>
-          </div>
-        
+        <a href="javascript:void(0)" id="back-to-top" class="epcl-button dark" style="display:none">
+          <i class="fa fa-arrow"></i>
+        </a>
+    </footer>
+    
+    <div class="clear"></div>
 
         
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min.js"></script>
+<script type="text/javascript" src="https://cdn.staticfile.org/valine/1.3.10/Valine.Pure.min.js"></script>
+<script>
+    new Valine({
+        el: '#comments',
+        appId: 'jxTT3ina1NIYw5eMOamocnW5-gzGzoHsz' ,
+        appKey: 'uUuJe7kNJCFlYliQY6FgscNi',
+        pageSize: 30,
+        placeholder: '既然来了，那就留个痕迹吧~',
+        visitor: false // 阅读量统计
+    })
+</script>
+    
 
-        <div class="site-footer">
-  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
-  <a class="rss" href="https://Eakamm.github.io/atom.xml" target="_blank">
-    <i class="ri-rss-line"></i> RSS
-  </a>
-</div>
+      
+    <script src="https://Eakamm.github.io/media/js/functions-post.js"></script>
 
-      </div>
     </div>
-
-    <script>
-      hljs.initHighlightingOnLoad()
-
-      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
-
-      // This should probably be throttled.
-      // Especially because it triggers during smooth scrolling.
-      // https://lodash.com/docs/4.17.10#throttle
-      // You could do like...
-      // window.addEventListener("scroll", () => {
-      //    _.throttle(doThatStuff, 100);
-      // });
-      // Only not doing it here to keep this Pen dependency-free.
-
-      window.addEventListener("scroll", event => {
-        let fromTop = window.scrollY;
-
-        mainNavLinks.forEach((link, index) => {
-          let section = document.getElementById(decodeURI(link.hash).substring(1));
-          let nextSection = null
-          if (mainNavLinks[index + 1]) {
-            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
-          }
-          if (section.offsetTop <= fromTop) {
-            if (nextSection) {
-              if (nextSection.offsetTop > fromTop) {
-                link.classList.add("current");
-              } else {
-                link.classList.remove("current");    
-              }
-            } else {
-              link.classList.add("current");
-            }
-          } else {
-            link.classList.remove("current");
-          }
-        });
-      });
-
-    </script>
+    <!-- end: #wrapper -->
   </body>
 </html>

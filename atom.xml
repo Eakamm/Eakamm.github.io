@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://Eakamm.github.io</id>
     <title>刘志豪的博客</title>
-    <updated>2020-09-08T07:30:42.353Z</updated>
+    <updated>2020-09-08T08:27:33.023Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://Eakamm.github.io"/>
     <link rel="self" href="https://Eakamm.github.io/atom.xml"/>
@@ -93,22 +93,19 @@ public void timeoutTest() {
         <updated>2020-09-08T07:20:05.000Z</updated>
         <summary type="html"><![CDATA[<p><a href="https://github.com/justinyhuang/Functional-Programming-For-The-Rest-of-Us-Cn">译者：justinyhuang</a><br>
 这篇文章是原文《<a href="http://www.defmacro.org/ramblings/fp.html">Functional Programming For The Rest of Us</a>》的中文翻译。<br>
-因为懒，在知道有这篇文章的时候我Google了若干篇中文翻译版，打算在吃午饭的时候随便扫扫了解一下。可是偏偏运气不太好，搜到的几篇翻译质量都不太理想：有把“Is it edible”被翻译成“它可以被掌握吗”的，有把“calculus”翻译成“微积分”的，几乎所有的版本都把“With any luck your coworkers will start making fun of you for your FP comments in no time” 译为“很快你的同事就会开始取笑你对函数式编程的观点了”……读起来矛盾拗口让人担心会不会有其他地方出错引起误解，让人不敢再往下看。<br>
-看来还是“自己动手，丰衣足食”，我最终还是开始自己翻译这篇文章。<br>
-这个版本在追求“信达雅”的同时，希望在不改变原意的前提下用中文语气/语境来进行本土化表达。唯一的例外是专业术语，如continuation，关于术语的翻译有很多讨论，我倾向于不翻译直接用，这样对以后写程序以及和国际友人交流都有帮助。<br>
-如果您在阅读之后没有明显感到央视翻译腔的话，我的目的就算达到了。非常期待您的任何反馈。<br>
-对了，在翻译的同时，我还把这篇文章转成Markdown的格式以图更好的保存和传播。You are welcome Slava 😉</p>
-<p>译者 于 2013年</p>
+因为懒，在知道有这篇文章的时候我Google了若干篇中文翻译版，打算在吃午饭的时候随便扫扫了解一下。可是偏偏运气不太好，搜到的几篇翻译质量都不太理想：</p>
 ]]></summary>
         <content type="html"><![CDATA[<p><a href="https://github.com/justinyhuang/Functional-Programming-For-The-Rest-of-Us-Cn">译者：justinyhuang</a><br>
 这篇文章是原文《<a href="http://www.defmacro.org/ramblings/fp.html">Functional Programming For The Rest of Us</a>》的中文翻译。<br>
+因为懒，在知道有这篇文章的时候我Google了若干篇中文翻译版，打算在吃午饭的时候随便扫扫了解一下。可是偏偏运气不太好，搜到的几篇翻译质量都不太理想：</p>
+<!-- more -->
+<p>这篇文章是原文《<a href="http://www.defmacro.org/ramblings/fp.html">Functional Programming For The Rest of Us</a>》的中文翻译。<br>
 因为懒，在知道有这篇文章的时候我Google了若干篇中文翻译版，打算在吃午饭的时候随便扫扫了解一下。可是偏偏运气不太好，搜到的几篇翻译质量都不太理想：有把“Is it edible”被翻译成“它可以被掌握吗”的，有把“calculus”翻译成“微积分”的，几乎所有的版本都把“With any luck your coworkers will start making fun of you for your FP comments in no time” 译为“很快你的同事就会开始取笑你对函数式编程的观点了”……读起来矛盾拗口让人担心会不会有其他地方出错引起误解，让人不敢再往下看。<br>
 看来还是“自己动手，丰衣足食”，我最终还是开始自己翻译这篇文章。<br>
 这个版本在追求“信达雅”的同时，希望在不改变原意的前提下用中文语气/语境来进行本土化表达。唯一的例外是专业术语，如continuation，关于术语的翻译有很多讨论，我倾向于不翻译直接用，这样对以后写程序以及和国际友人交流都有帮助。<br>
 如果您在阅读之后没有明显感到央视翻译腔的话，我的目的就算达到了。非常期待您的任何反馈。<br>
 对了，在翻译的同时，我还把这篇文章转成Markdown的格式以图更好的保存和传播。You are welcome Slava 😉</p>
 <p>译者 于 2013年</p>
-<!-- more -->
 <p>2006 年 6 月 19 日，星期一</p>
 <h3 id="开篇">开篇</h3>
 <p>我们这些码农做事都是很拖拉的。每天例行报到后，先来点咖啡，看看邮件还有 RSS 订阅的文章。然后翻翻新闻还有那些技术网站上的更新，再过一遍编程论坛口水区里那些无聊的论战。最后从头把这些再看一次以免错过什么精彩的内容。然后就可以吃午饭了。饭饱过后，回来盯着 IDE 发一会呆，再看看邮箱，再去搞杯咖啡。光阴似箭，可以回家了……</p>
