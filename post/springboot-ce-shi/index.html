@@ -2,18 +2,21 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>ElementUI的&lt;el-col&gt;标签无法使用点击事件 | 刘志豪的博客</title>
+<title>Springboot测试 | 刘志豪的博客</title>
 <link rel="shortcut icon" href="https://Eakamm.github.io/favicon.ico?v=1599550170466">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://Eakamm.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="ElementUI的&lt;el-col&gt;标签无法使用点击事件 | 刘志豪的博客 - Atom Feed" href="https://Eakamm.github.io/atom.xml">
+<link rel="alternate" type="application/atom+xml" title="Springboot测试 | 刘志豪的博客 - Atom Feed" href="https://Eakamm.github.io/atom.xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
-    <meta name="description" content="今天在做一个点击的组件，是由标签包裹的如下:
- &lt;el-row class=&quot;panel-group&quot;&gt;
-       &lt;el-col :xs=&quot;12&quot; :sm=&quot;12&q..." />
+    <meta name="description" content="1、注解
+@SpringBootTest替代了spring-test中的@ContextConfiguration注解，目的是加载ApplicationContext，启动spring容器。
+2、Junit5
+1、基本注解
+基本注解
+JUn..." />
     <meta name="keywords" content="" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
@@ -76,7 +79,7 @@
         <div class="post-detail">
           <article class="post">
             <h2 class="post-title">
-              ElementUI的&lt;el-col&gt;标签无法使用点击事件
+              Springboot测试
             </h2>
             <div class="post-info">
               <span>
@@ -90,25 +93,95 @@
             
             <div class="post-content-wrapper">
               <div class="post-content">
-                <p>今天在做一个点击的组件，是由<el-col>标签包裹的如下:</p>
-<pre><code class="language-html"> &lt;el-row class=&quot;panel-group&quot;&gt;
-       &lt;el-col :xs=&quot;12&quot; :sm=&quot;12&quot; :lg=&quot;8&quot; class=&quot;.card-panel-col&quot; @click=&quot;handleSetLineChartData(1)&quot;&gt;
-        &lt;panel-group2 :value='baseStatistics.inMoneyTotals' title=&quot;当年入库总金额&quot; iconName=&quot;peoples&quot;&gt;&lt;/panel-group2&gt;
-      &lt;/el-col&gt;
-    &lt;/el-row&gt;
+                <h2 id="1-注解">1、注解</h2>
+<p>@SpringBootTest替代了spring-test中的@ContextConfiguration注解，目的是加载ApplicationContext，启动spring容器。</p>
+<h2 id="2-junit5">2、Junit5</h2>
+<h3 id="1-基本注解">1、基本注解</h3>
+<p>基本注解<br>
+JUnit5的注解与JUnit4的注解有所变化，以下列出的注解为部分我觉得常用的注解</p>
+<ul>
+<li>
+<p>@Test :表示方法是测试方法。但是与JUnit4的@Test不同，他的职责非常单一不能声明任何属性，拓展的测试将会由Jupiter提供额外测试</p>
+</li>
+<li>
+<p>@ParameterizedTest :表示方法是参数化测试，下方会有详细介绍</p>
+</li>
+<li>
+<p>@RepeatedTest :表示方法可重复执行，下方会有详细介绍</p>
+</li>
+<li>
+<p>@DisplayName :为测试类或者测试方法设置展示名称</p>
+</li>
+<li>
+<p>@BeforeEach :表示在每个单元测试之前执行</p>
+</li>
+<li>
+<p>@AfterEach :表示在每个单元测试之后执行</p>
+</li>
+<li>
+<p>@BeforeAll :表示在所有单元测试之前执行</p>
+</li>
+<li>
+<p>@AfterAll :表示在所有单元测试之后执行</p>
+</li>
+<li>
+<p>@Tag :表示单元测试类别，类似于JUnit4中的@Categories</p>
+</li>
+<li>
+<p>@Disabled :表示测试类或测试方法不执行，类似于JUnit4中的@Ignore</p>
+</li>
+<li>
+<p>@Timeout :表示测试方法运行如果超过了指定时间将会返回错误</p>
+</li>
+<li>
+<p>@ExtendWith :为测试类或测试方法提供扩展类引用</p>
+</li>
+</ul>
+<h3 id="2-更强大的断言">2、更强大的断言</h3>
+<p>JUnit5使用了新的断言类:org.junit.jupiter.api.Assertions。相比之前的Assert断言类多了许多新的功能，并且大量方法支持Java8的Lambda表达式。</p>
+<p>以下为两个与JUnit4不太一样的断言方式:</p>
+<h4 id="1-异常断言">1. 异常断言</h4>
+<p>在JUnit4时期，想要测试方法的异常情况时，需要用@Rule注解的ExpectedException变量还是比较麻烦的。而JUnit5提供了一种新的断言方式Assertions.assertThrows() ,配合函数式编程就可以进行使用。</p>
+<pre><code class="language-java">@Test
+@DisplayName(&quot;异常测试&quot;)
+public void exceptionTest() {
+    ArithmeticException exception = Assertions.assertThrows(
+           //扔出断言异常
+            ArithmeticException.class, () -&gt; System.out.println(1 % 0));
+
+}
 </code></pre>
-<p>使用<code>@click</code>后点击并没有效果，通过查找发现使用</p>
-<pre><code class="language-html"> &lt;el-row class=&quot;panel-group&quot;&gt;
-       &lt;el-col :xs=&quot;12&quot; :sm=&quot;12&quot; :lg=&quot;8&quot; class=&quot;.card-panel-col&quot; @click.native=&quot;handleSetLineChartData(1)&quot;&gt;
-        &lt;panel-group2 :value='baseStatistics.inMoneyTotals' title=&quot;当年入库总金额&quot; iconName=&quot;peoples&quot;&gt;&lt;/panel-group2&gt;
-      &lt;/el-col&gt;
-    &lt;/el-row&gt;
+<h4 id="2超时断言">2.超时断言</h4>
+<p>Junit5还提供了Assertions.assertTimeout() 为测试方法设置了超时时间</p>
+<pre><code class="language-java">@Test
+@DisplayName(&quot;超时测试&quot;)
+public void timeoutTest() {
+    //如果测试方法时间超过1s将会异常
+    Assertions.assertTimeout(Duration.ofMillis(1000), () -&gt; Thread.sleep(500));
+}
 </code></pre>
-<p>使用<code>@click.native</code>可以监听点击事件了😵😵</p>
 
               </div>
               <div class="toc-container">
-                
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#1-%E6%B3%A8%E8%A7%A3">1、注解</a></li>
+<li><a href="#2-junit5">2、Junit5</a>
+<ul>
+<li><a href="#1-%E5%9F%BA%E6%9C%AC%E6%B3%A8%E8%A7%A3">1、基本注解</a></li>
+<li><a href="#2-%E6%9B%B4%E5%BC%BA%E5%A4%A7%E7%9A%84%E6%96%AD%E8%A8%80">2、更强大的断言</a>
+<ul>
+<li><a href="#1-%E5%BC%82%E5%B8%B8%E6%96%AD%E8%A8%80">1. 异常断言</a></li>
+<li><a href="#2%E8%B6%85%E6%97%B6%E6%96%AD%E8%A8%80">2.超时断言</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
               </div>
             </div>
           </article>
@@ -117,9 +190,9 @@
         
           <div class="next-post">
             <div class="next">下一篇</div>
-            <a href="https://Eakamm.github.io/post/hello-gridea/">
+            <a href="https://Eakamm.github.io/post/sha-gua-han-shu-shi-bian-cheng-zhuan-zai/">
               <h3 class="post-title">
-                Hello Gridea
+                傻瓜函数式编程（转载）
               </h3>
             </a>
           </div>

@@ -1,0 +1,351 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Mysql进行时间查询的一些常用sql | 刘志豪的博客</title>
+<link rel="shortcut icon" href="https://Eakamm.github.io/favicon.ico?v=1599550170466">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://Eakamm.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Mysql进行时间查询的一些常用sql | 刘志豪的博客 - Atom Feed" href="https://Eakamm.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="1、时间段查询
+-- 今天  
+select fullName,addedTime from t_user where to_days(addedTime) &lt;= to_days(now()); 
+-- 昨天  
+select ful..." />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://Eakamm.github.io">
+  <img class="avatar" src="https://Eakamm.github.io/images/avatar.png?v=1599550170466" alt="">
+  </a>
+  <h1 class="site-title">
+    刘志豪的博客
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              Mysql进行时间查询的一些常用sql
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-09-08
+              </span>
+              <span>
+                4 min read
+              </span>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h2 id="1-时间段查询">1、时间段查询</h2>
+<pre><code class="language-mysql">-- 今天  
+select fullName,addedTime from t_user where to_days(addedTime) &lt;= to_days(now()); 
+-- 昨天  
+select fullName,addedTime from t_user where to_days(NOW()) - TO_DAYS(addedTime) &lt;= 1;  
+-- 近7天  
+select fullName,addedTime from t_user where date_sub(CURDATE(),INTERVAL 7 DAY) &lt;= DATE(addedTime);  
+-- 近30天  
+SELECT fullName,addedTime FROM t_user where DATE_SUB(CURDATE(), INTERVAL 30 DAY) &lt;= date(addedTime);
+-- 本月  
+SELECT fullName,addedTime FROM t_user WHERE DATE_FORMAT( addedTime, '%Y%m' ) = DATE_FORMAT( CURDATE() , '%Y%m' );
+-- 上一月  
+SELECT fullName,addedTime FROM t_user WHERE PERIOD_DIFF( date_format( now( ) , '%Y%m' ) , date_format( addedTime, '%Y%m' ) ) =1; 
+-- 查询本季度数据  
+select fullName,addedTime FROM t_user where QUARTER(addedTime)=QUARTER(now()); 
+-- 查询上季度数据  
+select fullName,addedTime FROM t_user where QUARTER(addedTime)=QUARTER(DATE_SUB(now(),interval 1 QUARTER));  
+-- 查询本年数据  
+select fullName,addedTime FROM t_user where YEAR(addedTime)=YEAR(NOW());  
+-- 查询上年数据  
+select fullName,addedTime FROM t_user where year(addedTime)=year(date_sub(now(),interval 1 year));  
+-- 查询距离当前现在6个月的数据  
+select fullName,addedTime FROM t_user where addedTime between date_sub(now(),interval 6 month) and now();  
+ 
+-- 查询当前这周的数据  
+SELECT fullName,addedTime FROM t_user WHERE YEARWEEK(date_format(addedTime,'%Y-%m-%d')) = YEARWEEK(now());  
+-- 查询上周的数据  
+SELECT fullName,addedTime FROM t_user WHERE YEARWEEK(date_format(addedTime,'%Y-%m-%d')) = YEARWEEK(now())-1;  
+-- 查询上个月的数据   
+select fullName,addedTime FROM t_user where date_format(addedTime,'%Y-%m')=date_format(DATE_SUB(curdate(), INTERVAL 1 MONTH),'%Y-%m'); 
+-- 查询当前月份的数据
+select fullName,addedTime FROM t_user where DATE_FORMAT(addedTime,'%Y%m') = DATE_FORMAT(CURDATE(),'%Y%m');
+select fullName,addedTime FROM t_user where date_format(addedTime,'%Y-%m')=date_format(now(),'%Y-%m'); 
+ 
+-- 查询指定时间段的数据
+select fullName,addedTime FROM t_user where addedTime between  '2017-1-1 00:00:00'  and '2018-1-1 00:00:00';   
+select fullName,addedTime FROM t_user where addedTime &gt;='2017-1-1 00:00:00'  and addedTime &lt; '2018-1-1 00:00:00';
+</code></pre>
+<h2 id="2-时间分组查询">2、时间分组查询</h2>
+<h3 id="1-查询方式">1、查询方式</h3>
+<pre><code class="language-mysql">&lt;!-- 按日查询 --&gt;  
+SELECT DATE_FORMAT(created_date,'%Y-%m-%d') as time,sum(money) money FROM o_finance_detail where org_id = 1000  GROUP BY  time  
+&lt;!-- 按月查询 --&gt;  
+SELECT DATE_FORMAT(created_date,'%Y-%m') as time,sum(money)  money FROM o_finance_detail where org_id = 1000  GROUP BY  time  
+&lt;!-- 按年查询 --&gt;  
+SELECT DATE_FORMAT(created_date,'%Y') as time,sum(money)  money FROM o_finance_detail where org_id = 1000  GROUP BY  time   
+&lt;!-- 按周查询 --&gt;  
+SELECT DATE_FORMAT(created_date,'%Y-%u') as time,sum(money)  money FROM o_finance_detail where org_id = 1000  GROUP BY  time
+</code></pre>
+<h3 id="2-时间格式化规则">2、时间格式化规则</h3>
+<p>DATE_FORMAT(date,format)<br>
+根据format字符串格式化date值。下列修饰符可以被用在format字符串中：</p>
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>%M</td>
+<td>月名字(January……December)</td>
+</tr>
+<tr>
+<td>%W</td>
+<td>星期名字(Sunday……Saturday)</td>
+</tr>
+<tr>
+<td>%D</td>
+<td>有英语前缀的月份的日期(1st, 2nd, 3rd, 等等。）</td>
+</tr>
+<tr>
+<td>%Y</td>
+<td>年, 数字, 4 位</td>
+</tr>
+<tr>
+<td>%y</td>
+<td>年, 数字, 2 位</td>
+</tr>
+<tr>
+<td>%a</td>
+<td>缩写的星期名字(Sun……Sat)</td>
+</tr>
+<tr>
+<td>%d</td>
+<td>月份中的天数, 数字(00……31)</td>
+</tr>
+<tr>
+<td>%e</td>
+<td>月份中的天数, 数字(0……31)</td>
+</tr>
+<tr>
+<td>%m</td>
+<td>月, 数字(01……12)</td>
+</tr>
+<tr>
+<td>%c</td>
+<td>月, 数字(1……12)</td>
+</tr>
+<tr>
+<td>%b</td>
+<td>缩写的月份名字(Jan……Dec)</td>
+</tr>
+<tr>
+<td>%j</td>
+<td>一年中的天数(001……366)</td>
+</tr>
+<tr>
+<td>%H</td>
+<td>小时(00……23)</td>
+</tr>
+<tr>
+<td>%k</td>
+<td>小时(0……23)</td>
+</tr>
+<tr>
+<td>%h</td>
+<td>小时(01……12)</td>
+</tr>
+<tr>
+<td>%I</td>
+<td>小时(01……12)</td>
+</tr>
+<tr>
+<td>%l</td>
+<td>小时(1……12)</td>
+</tr>
+<tr>
+<td>%i</td>
+<td>分钟, 数字(00……59)</td>
+</tr>
+<tr>
+<td>%r</td>
+<td>时间,12 小时(hh:mm:ss [AP]M)</td>
+</tr>
+<tr>
+<td>%T</td>
+<td>时间,24 小时(hh:mm:ss)</td>
+</tr>
+<tr>
+<td>%S</td>
+<td>秒(00……59)</td>
+</tr>
+<tr>
+<td>%s</td>
+<td>秒(00……59)</td>
+</tr>
+<tr>
+<td>%p</td>
+<td>AM或PM</td>
+</tr>
+<tr>
+<td>%w</td>
+<td>一个星期中的天数(0=Sunday ……6=Saturday ）</td>
+</tr>
+<tr>
+<td>%U</td>
+<td>星期(0……52), 这里星期天是星期的第一天</td>
+</tr>
+<tr>
+<td>%u</td>
+<td>星期(0……52), 这里星期一是星期的第一天</td>
+</tr>
+<tr>
+<td>%%</td>
+<td>一个文字“%”。</td>
+</tr>
+</tbody>
+</table>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#1-%E6%97%B6%E9%97%B4%E6%AE%B5%E6%9F%A5%E8%AF%A2">1、时间段查询</a></li>
+<li><a href="#2-%E6%97%B6%E9%97%B4%E5%88%86%E7%BB%84%E6%9F%A5%E8%AF%A2">2、时间分组查询</a>
+<ul>
+<li><a href="#1-%E6%9F%A5%E8%AF%A2%E6%96%B9%E5%BC%8F">1、查询方式</a></li>
+<li><a href="#2-%E6%97%B6%E9%97%B4%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%A7%84%E5%88%99">2、时间格式化规则</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://Eakamm.github.io/post/elementui-de-lessel-colgreaterbiao-qian-wu-fa-shi-yong-dian-ji-shi-jian/">
+              <h3 class="post-title">
+                ElementUI的&lt;el-col&gt;标签无法使用点击事件
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://Eakamm.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>
