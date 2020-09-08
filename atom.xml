@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://Eakamm.github.io</id>
     <title>Gridea</title>
-    <updated>2020-09-08T06:38:37.373Z</updated>
+    <updated>2020-09-08T06:52:26.752Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://Eakamm.github.io"/>
     <link rel="self" href="https://Eakamm.github.io/atom.xml"/>
@@ -10,6 +10,29 @@
     <logo>https://Eakamm.github.io/images/avatar.png</logo>
     <icon>https://Eakamm.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[ElementUI的<el-col>标签无法使用点击事件]]></title>
+        <id>https://Eakamm.github.io/post/elementui-de-lessel-colgreaterbiao-qian-wu-fa-shi-yong-dian-ji-shi-jian/</id>
+        <link href="https://Eakamm.github.io/post/elementui-de-lessel-colgreaterbiao-qian-wu-fa-shi-yong-dian-ji-shi-jian/">
+        </link>
+        <updated>2020-09-08T06:44:36.000Z</updated>
+        <content type="html"><![CDATA[<p>今天在做一个点击的组件，是由<el-col>标签包裹的如下:</p>
+<pre><code class="language-html"> &lt;el-row class=&quot;panel-group&quot;&gt;
+       &lt;el-col :xs=&quot;12&quot; :sm=&quot;12&quot; :lg=&quot;8&quot; class=&quot;.card-panel-col&quot; @click=&quot;handleSetLineChartData(1)&quot;&gt;
+        &lt;panel-group2 :value='baseStatistics.inMoneyTotals' title=&quot;当年入库总金额&quot; iconName=&quot;peoples&quot;&gt;&lt;/panel-group2&gt;
+      &lt;/el-col&gt;
+    &lt;/el-row&gt;
+</code></pre>
+<p>使用<code>@click</code>后点击并没有效果，通过查找发现使用</p>
+<pre><code class="language-html"> &lt;el-row class=&quot;panel-group&quot;&gt;
+       &lt;el-col :xs=&quot;12&quot; :sm=&quot;12&quot; :lg=&quot;8&quot; class=&quot;.card-panel-col&quot; @click.native=&quot;handleSetLineChartData(1)&quot;&gt;
+        &lt;panel-group2 :value='baseStatistics.inMoneyTotals' title=&quot;当年入库总金额&quot; iconName=&quot;peoples&quot;&gt;&lt;/panel-group2&gt;
+      &lt;/el-col&gt;
+    &lt;/el-row&gt;
+</code></pre>
+<p>使用<code>@click.native</code>可以监听点击事件了</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Hello Gridea]]></title>
         <id>https://Eakamm.github.io/post/hello-gridea/</id>
