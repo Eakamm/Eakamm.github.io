@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://Eakamm.github.io</id>
     <title>刘志豪的博客</title>
-    <updated>2020-09-08T09:19:37.222Z</updated>
+    <updated>2020-09-25T06:54:57.983Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://Eakamm.github.io"/>
     <link rel="self" href="https://Eakamm.github.io/atom.xml"/>
@@ -10,6 +10,418 @@
     <logo>https://Eakamm.github.io/images/avatar.png</logo>
     <icon>https://Eakamm.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, 刘志豪的博客</rights>
+    <entry>
+        <title type="html"><![CDATA[Pandas基础（一）]]></title>
+        <id>https://Eakamm.github.io/post/pandas-ji-chu-yi/</id>
+        <link href="https://Eakamm.github.io/post/pandas-ji-chu-yi/">
+        </link>
+        <updated>2020-09-25T06:47:37.000Z</updated>
+        <summary type="html"><![CDATA[<p>Pandas是一个强大的分析结构化数据的工具集；它的使用基础是Numpy（提供高性能的矩阵运算）；用于数据挖掘和数据分析，同时也提供数据清洗功能。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>Pandas是一个强大的分析结构化数据的工具集；它的使用基础是Numpy（提供高性能的矩阵运算）；用于数据挖掘和数据分析，同时也提供数据清洗功能。</p>
+<!-- more -->
+<h2 id="1-servies">1、Servies</h2>
+<p>pandas创建一个一维数组</p>
+<pre><code class="language-python{cmd}">import pandas as pd
+import numpy as np
+
+s = pd.Series(['a', 'b', 'c'], index=[1, 2, 3])
+
+# 获取索引序列
+print(s.index)
+
+# 根据索引查找数据
+print(s[1])
+s[1] = &quot;e&quot;
+print(s[1])
+
+print('----------------------------------')
+# 多个索引或值查找
+s2 = pd.Series([1, 2, 6], index=['a', 'b', 'c'])
+# 自定义的索引('a', 'b', 'c')
+print(s2[['a', 'b']])
+# 第n行(0,1,2)
+print(s2[[1, 2]])
+# 值小于等于n
+print(s2[s2 &lt;= 3])
+
+print('----------------------------------')
+# in判断索引是否存在
+print(1 in s)
+
+</code></pre>
+<p>通过<code>.index</code>改变索引</p>
+<pre><code class="language-python"># Series的索引可以通过按位置赋值的方式进行改变
+s.index = ['a','b','c']
+</code></pre>
+<p>Python切片中是不包含尾部的，Series的自定义字符串索引的切片与之不同.</p>
+<pre><code class="language-python">import pandas as pd
+import numpy as np
+
+# 字符串索引
+s = pd.Series([1,2,3], index=['a', 'b', 'c'])
+# 数字索引
+s1 = pd.Series([1,2,3], index=[1, 2, 3])
+s2 = [1,2,3]
+print(s2[0:1])
+# 根据行数做切片与普通数组的切片相同
+print(s1[1:2])
+# 自定义字符串索引包含尾部
+print(s['a':'b'])
+
+# 可以使用切片更改数据
+s['a':'b'] = 4
+print(s)
+</code></pre>
+<h2 id="2-dataframe">2、DataFrame</h2>
+<h3 id="21-创建">2.1、创建</h3>
+<p>最常用的方式是利用包含等长度列表或NumPy数组的字典来形成DataFrame(某一列没有赋值，会出现缺省值NaN)</p>
+<pre><code class="language-python">import pandas as pd
+
+data = {'state': ['Ohio', 'Ohio', 'Ohio', 'Nevada', 'Nevada', 'Nevada'],
+        'year': [2000, 2001, 2002, 2001, 2002, 2003],
+        'pop': [1.5, 1.7, 3.6, 2.4, 2.9, 3.2]}
+frame = pd.DataFrame(data)
+
+print(frame)
+</code></pre>
+<p>设置列名与行名，<code>debt</code>列为空，为NaN</p>
+<pre><code class="language-python">&gt;&gt;&gt; frame2 = pd.DataFrame(data, columns=['year', 'state', 'pop', 'debt'],
+...                       index=['one', 'two', 'three', 'four',
+...                              'five', 'six'])
+&gt;&gt;&gt; frame2
+one    2000    Ohio  1.5  NaN
+two    2001    Ohio  1.7  NaN
+three  2002    Ohio  3.6  NaN
+four   2001  Nevada  2.4  NaN
+five   2002  Nevada  2.9  NaN
+six    2003  Nevada  3.2  NaN
+</code></pre>
+<h3 id="22-查找">2.2、查找</h3>
+<p><code>loc[]</code>获取某一行的数据</p>
+<pre><code class="language-python">import pandas as pd
+
+data = {'state': ['Ohio', 'Ohio', 'Ohio', 'Nevada', 'Nevada', 'Nevada'],
+        'year': [2000, 2001, 2002, 2001, 2002, 2003],
+        'pop': [1.5, 1.7, 3.6, 2.4, 2.9, 3.2]}
+frame = pd.DataFrame(data)
+
+# 查找某一行
+print(frame)
+print(frame.loc[1])
+
+# 多个索引查找
+
+
+# 创建新的一列
+frame['test'] = frame.state == 'Ohio'
+print(frame)
+# 删除一列
+del frame['test']
+print(frame.columns)
+</code></pre>
+<h3 id="23-根据布尔值切片">2.3、根据布尔值切片</h3>
+<p>可以根据一个布尔值数组选择数据，也可以比较所有的元素，对符合要求的元素执行操作。</p>
+<pre><code class="language-python{cmd}">import pandas as pd
+import numpy as np
+frame = pd.DataFrame(np.arange(20).reshape(4, 5),
+                      index=list('abcd'),
+                      columns=list('abcde'))
+# frame &lt; 5
+print(frame &lt; 5)
+# 将小于5的元素改为0
+frame[frame &lt; 5] = 0
+print(frame)
+# 根据列的比较结果显示数据
+print(frame[frame['b'] &gt; 10])
+
+print(frame)
+</code></pre>
+<h3 id="24-loc与iloc索引">2.4、loc与iloc索引</h3>
+<p>标签选出单行多列的数据可以使用<code>loc</code>（也就是自定义的索引）</p>
+<pre><code class="language-python">import numpy as np
+import pandas as pd
+
+frame = pd.DataFrame(np.arange(20).reshape(4, 5),
+                      index=list('abcd'),
+                      columns=list('abcde'))
+# 获取某一行
+print(frame.loc['a'])
+# 获取某一行的n列数据
+print(frame.loc['a',['a', 'b']])
+# 
+print(frame.loc[['a','b'],['a', 'b']])
+</code></pre>
+<p>整数标签<code>iloc</code>进行类似的数据选择</p>
+<pre><code class="language-python">import numpy as np
+import pandas as pd
+
+frame = pd.DataFrame(np.arange(20).reshape(4, 5),
+                      index=list('abcd'),
+                      columns=list('abcde'))
+print(frame.iloc[1])
+
+print(frame.iloc[1,[1,2]])
+
+print(frame.iloc[[1,2],[1,2]])
+</code></pre>
+<h3 id="25-整数索引问题">2.5、整数索引问题</h3>
+<pre><code class="language-python">import numpy as np
+import pandas as pd
+
+
+</code></pre>
+<p>当使用字符串的索引就不会对s[-1]产生歧义</p>
+<p>所以你有一个包含整数的轴索引，数据选择时请始终使用标签索引。</p>
+<h3 id="26-广播机制">2.6、广播机制</h3>
+<h3 id="27-函数">2.7、函数</h3>
+<p>使用<code>apply</code>可以取出每一行或每一列的元素。<code>axis = 'columns'</code>取出每一行，以行为索引。默认为列。<br>
+可以使用函数对数据进行更复杂的操作</p>
+<pre><code class="language-python">import numpy as np
+import pandas as pd
+
+df = pd.DataFrame(np.arange(20).reshape(4, 5),
+                  columns=list('abcde'))
+
+# 求每组数据的最大最小值的差
+
+
+def f(x): return x.max()-x.min()
+
+
+# 默认为取出每列
+series = df.apply(f)
+print(series)
+
+# 取出每行
+series = df.apply(f, axis=&quot;columns&quot;)
+print(series)
+</code></pre>
+<p>使用<code>applymap</code>取出每个元素</p>
+<pre><code class="language-python">import numpy as np
+import pandas as pd
+
+df = pd.DataFrame(np.arange(20).reshape(4, 5),
+                  columns=list('abcde'))
+# 处理所有的元素
+# 求平方
+def f2(x): return x**2
+
+
+data_frame = df.applymap(f2)
+print(data_frame)
+
+# 处理某一行
+data_frame = df.loc[1].map(f2)
+print(data_frame)
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[常用数字正则表达式]]></title>
+        <id>https://Eakamm.github.io/post/chang-yong-shu-zi-zheng-ze-biao-da-shi/</id>
+        <link href="https://Eakamm.github.io/post/chang-yong-shu-zi-zheng-ze-biao-da-shi/">
+        </link>
+        <updated>2020-09-11T08:43:37.000Z</updated>
+        <content type="html"><![CDATA[<p>验证数字的正则表达式集</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>正则表达式</th>
+<th>部分验证的格式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>验证数字</td>
+<td><sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>*$</td>
+<td></td>
+</tr>
+<tr>
+<td>验证n位的数字</td>
+<td>^\d{n}$</td>
+<td></td>
+</tr>
+<tr>
+<td>验证至少n位数字</td>
+<td>^\d{n,}$</td>
+<td></td>
+</tr>
+<tr>
+<td>验证m-n位的数字</td>
+<td>^\d{m,n}$</td>
+<td></td>
+</tr>
+<tr>
+<td>验证零和非零开头的数字</td>
+<td>^(0</td>
+<td>[1-9][0-9]*)$</td>
+</tr>
+<tr>
+<td>验证有两位小数的正实数</td>
+<td><sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>+(.[0-9]{2})?$</td>
+<td></td>
+</tr>
+<tr>
+<td>验证有1-3位小数的正实数</td>
+<td><sup class="footnote-ref"><a href="#fn3" id="fnref3">[3]</a></sup>+(.[0-9]{1,3})?$</td>
+<td></td>
+</tr>
+<tr>
+<td>验证非零的正整数</td>
+<td>^+?[1-9][0-9]*$</td>
+<td></td>
+</tr>
+<tr>
+<td>验证非零的负整数</td>
+<td>^-[1-9][0-9]*$</td>
+<td></td>
+</tr>
+<tr>
+<td>验证非负整数（正整数 + 0）</td>
+<td>^\d+$</td>
+<td></td>
+</tr>
+<tr>
+<td>验证非正整数（负整数 + 0）</td>
+<td>^((-\d+)</td>
+<td>(0+))$</td>
+</tr>
+<tr>
+<td>验证长度为3的字符</td>
+<td>^.{3}$</td>
+<td></td>
+</tr>
+<tr>
+<td>验证由26个英文字母组成的字符串</td>
+<td><sup class="footnote-ref"><a href="#fn4" id="fnref4">[4]</a></sup>+$</td>
+<td></td>
+</tr>
+<tr>
+<td>验证由26个大写英文字母组成的字符串</td>
+<td><sup class="footnote-ref"><a href="#fn5" id="fnref5">[5]</a></sup>+$</td>
+<td></td>
+</tr>
+<tr>
+<td>验证由26个小写英文字母组成的字符串</td>
+<td><sup class="footnote-ref"><a href="#fn6" id="fnref6">[6]</a></sup>+$</td>
+<td></td>
+</tr>
+<tr>
+<td>验证由数字和26个英文字母组成的字符串</td>
+<td><sup class="footnote-ref"><a href="#fn7" id="fnref7">[7]</a></sup>+$</td>
+<td></td>
+</tr>
+<tr>
+<td>验证由数字、26个英文字母或者下划线组成的字符串</td>
+<td>^\w+$</td>
+<td></td>
+</tr>
+<tr>
+<td>验证用户密码</td>
+<td><sup class="footnote-ref"><a href="#fn8" id="fnref8">[8]</a></sup>\w{5,17}$</td>
+<td>正确格式为：以字母开头，长度在6-18之间，只能包含字符、数字和下划线。</td>
+</tr>
+<tr>
+<td>验证是否含有 ^%&amp;',;=?$&quot; 等字符</td>
+<td>[^%&amp;',;=?$\x22]+</td>
+<td></td>
+</tr>
+<tr>
+<td>验证汉字</td>
+<td><sup class="footnote-ref"><a href="#fn9" id="fnref9">[9]</a></sup>,{0,}$</td>
+<td></td>
+</tr>
+<tr>
+<td>验证Email地址</td>
+<td>/^([a-zA-Z0-9]+[_</td>
+<td>_</td>
+</tr>
+<tr>
+<td>验证InternetURL</td>
+<td>^http://([\w-]+.)+[\w-]+(/[\w-./?%&amp;=]<em>)?$ ；<sup class="footnote-ref"><a href="#fn10" id="fnref10">[10]</a></sup>+://(w+(-w+)</em>)(.(w+(-w+)<em>))</em>(?S*)?$</td>
+<td></td>
+</tr>
+<tr>
+<td>验证电话号码</td>
+<td>^(\d3,4\d3,4</td>
+<td>\d{3,4}-)?\d{7,8}$</td>
+</tr>
+<tr>
+<td>验证身份证号（15位或18位数字）</td>
+<td>^\d{15}</td>
+<td>\d{}18$</td>
+</tr>
+<tr>
+<td>验证一年的12个月</td>
+<td>^(0?[1-9]</td>
+<td>1[0-2])$</td>
+</tr>
+<tr>
+<td>验证一个月的31天</td>
+<td>^((0?[1-9])</td>
+<td>((1</td>
+</tr>
+<tr>
+<td>整数</td>
+<td>^-?\d+$</td>
+<td></td>
+</tr>
+<tr>
+<td>非负浮点数（正浮点数 + 0）</td>
+<td>^\d+(.\d+)?$</td>
+<td></td>
+</tr>
+<tr>
+<td>正浮点数</td>
+<td>^(([0-9]+.[0-9]<em>[1-9][0-9]</em>)</td>
+<td>([0-9]<em>[1-9][0-9]</em>.[0-9]+)</td>
+</tr>
+<tr>
+<td>非正浮点数</td>
+<td>（负浮点数 + 0） ^((-\d+(.\d+)?)</td>
+<td>(0+(.0+)?))$</td>
+</tr>
+<tr>
+<td>负浮点数</td>
+<td>^(-(([0-9]+.[0-9]<em>[1-9][0-9]</em>)</td>
+<td>([0-9]<em>[1-9][0-9]</em>.[0-9]+)</td>
+</tr>
+<tr>
+<td>浮点数</td>
+<td>^(-?\d+)(.\d+)?$</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>0-9 <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p>0-9 <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn3" class="footnote-item"><p>0-9 <a href="#fnref3" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn4" class="footnote-item"><p>A-Za-z <a href="#fnref4" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn5" class="footnote-item"><p>A-Z <a href="#fnref5" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn6" class="footnote-item"><p>a-z <a href="#fnref6" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn7" class="footnote-item"><p>A-Za-z0-9 <a href="#fnref7" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn8" class="footnote-item"><p>a-zA-Z <a href="#fnref8" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn9" class="footnote-item"><p>\u4e00-\u9fa5 <a href="#fnref9" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn10" class="footnote-item"><p>a-zA-z <a href="#fnref10" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[JWT]]></title>
         <id>https://Eakamm.github.io/post/jwt/</id>
@@ -606,7 +1018,11 @@ inc2(); // returns 3;
         <link href="https://Eakamm.github.io/post/es6-yu-fa-jian-tou-han-shu/">
         </link>
         <updated>2020-09-08T07:17:21.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="1-之前的函数定义方式">1、之前的函数定义方式</h2>
+        <summary type="html"><![CDATA[<p>优雅的函数式编程</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>优雅的函数式编程</p>
+<!-- more -->
+<h2 id="1-之前的函数定义方式">1、之前的函数定义方式</h2>
 <pre><code class="language-js">1、Function
 let a = function(){  
 }
@@ -664,7 +1080,11 @@ aa.cc()
         <link href="https://Eakamm.github.io/post/mysql-jin-xing-shi-jian-cha-xun-de-yi-xie-chang-yong-sql/">
         </link>
         <updated>2020-09-08T07:09:18.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="1-时间段查询">1、时间段查询</h2>
+        <summary type="html"><![CDATA[<p>经常用到，防止忘掉，随查随用</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>经常用到，防止忘掉，随查随用</p>
+<!-- more -->
+<h2 id="1-时间段查询">1、时间段查询</h2>
 <pre><code class="language-mysql">-- 今天  
 select fullName,addedTime from t_user where to_days(addedTime) &lt;= to_days(now()); 
 -- 昨天  
