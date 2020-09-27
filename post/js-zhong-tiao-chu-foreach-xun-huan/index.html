@@ -2,7 +2,7 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Pandas基础（一） | 刘志豪的博客</title>
+<title>js中跳出forEach循环 | 刘志豪的博客</title>
 <meta name="description" content="温故而知新" />
 <link rel="shortcut icon" href="https://Eakamm.github.io/favicon.ico">
 <link rel="stylesheet" href="https://Eakamm.github.io/styles/main.css">
@@ -15,13 +15,12 @@
 <script src="https://Eakamm.github.io/media/js/jquery.magnific-popup.min.js"></script>
 <script src="https://Eakamm.github.io/media/js/functions.js"></script>
     <meta name="referrer" content="never">
-    <meta name="description" content="Pandas是一个强大的分析结构化数据的工具集；它的使用基础是Numpy（提供高性能的矩阵运算）；用于数据挖掘和数据分析，同时也提供数据清洗功能。
+    <meta name="description" content="在使用forEach中需要在处理后跳出循环，return和break都无法跳出。经过查找资料后，我找到了两种方法可以实现跳出循环。当然可以使用for循环直接解决🌸🐔
 
-1、Servies
-pandas创建一个一维数组
-import pandas as pd
-..." />
-    <meta name="keywords" content="Python,Pandas,数据处理" />
+1、使用try···catch捕获异常实现
+try{
+var arr..." />
+    <meta name="keywords" content="坑,JavaScript" />
     <script src="https://Eakamm.github.io/media/js/waterfall.min.js"></script>
     <script src="https://Eakamm.github.io/media/js/prism.min.js"></script>
   </head>
@@ -95,27 +94,25 @@ import pandas as pd
       <main id="single" class="main grid-container fullcover no-sidebar aos-init aos-animate" data-aos="fade">
 
         <div class="center content">
-          <div class="featured-image cover" style="background-image: url('https://Eakamm.github.io/post-images/pandas-ji-chu-yi.jpg');">
+          <div class="featured-image cover" style="background-image: url('https://Eakamm.github.io/post-images/js-zhong-tiao-chu-foreach-xun-huan.jpg');">
             <div class="meta top"> 
-              <time class="meta-info" style="float:left;" datetime="2020-09-25"><i class="fa fa-calendar"></i><span class="lately">2 天前</span></time>
+              <time class="meta-info" style="float:left;" datetime="2020-09-27"><i class="fa fa-calendar"></i><span class="lately">9 分钟前</span></time>
               
-              <a href="https://Eakamm.github.io/post/pandas-ji-chu-yi/#comments" class="comments meta-info" title="">
-                <i class="fa fa-comment remixicon"></i><span class="comment-count valine-comment-count" data-xid="/pandas-ji-chu-yi/"> </span>
+              <a href="https://Eakamm.github.io/post/js-zhong-tiao-chu-foreach-xun-huan/#comments" class="comments meta-info" title="">
+                <i class="fa fa-comment remixicon"></i><span class="comment-count valine-comment-count" data-xid="/js-zhong-tiao-chu-foreach-xun-huan/"> </span>
               </a>
-              <span id="/pandas-ji-chu-yi/" class="leancloud_visitors views-counter meta-info" title=""><i class="fa fa-leancloud remixicon"></i><span class="leancloud-visitors-count"></span></span>
+              <span id="/js-zhong-tiao-chu-foreach-xun-huan/" class="leancloud_visitors views-counter meta-info" title=""><i class="fa fa-leancloud remixicon"></i><span class="leancloud-visitors-count"></span></span>
               
             </div>
             <div class="info">
               <div class="tags ">
                 
-                      <a href="https://Eakamm.github.io/tag/aYAE_85kY/" class="ctag ctag-0 ctag-aYAE_85kY" aria-label="">Python</a>
+                      <a href="https://Eakamm.github.io/tag/VVAqyIHur/" class="ctag ctag-0 ctag-VVAqyIHur" aria-label="">坑</a>
                     
-                      <a href="https://Eakamm.github.io/tag/eVLL_p5ATD/" class="ctag ctag-1 ctag-eVLL_p5ATD" aria-label="">Pandas</a>
-                    
-                      <a href="https://Eakamm.github.io/tag/m13UWVHSwx/" class="ctag ctag-2 ctag-m13UWVHSwx" aria-label="">数据处理</a>
+                      <a href="https://Eakamm.github.io/tag/tjl78Jr5n/" class="ctag ctag-1 ctag-tjl78Jr5n" aria-label="">JavaScript</a>
                     
               </div>
-              <h1 class="title ularge white bold">Pandas基础（一）</h1>
+              <h1 class="title ularge white bold">js中跳出forEach循环</h1>
             </div>
           </div>
         </div>  
@@ -125,202 +122,49 @@ import pandas as pd
             <article class="main-article post">
               <section class="post-content">
                 <div class="text">
-                  <p>Pandas是一个强大的分析结构化数据的工具集；它的使用基础是Numpy（提供高性能的矩阵运算）；用于数据挖掘和数据分析，同时也提供数据清洗功能。</p>
+                  <p>在使用forEach中需要在处理后跳出循环，return和break都无法跳出。经过查找资料后，我找到了两种方法可以实现跳出循环。当然可以使用for循环直接解决🌸🐔</p>
 <!-- more -->
-<h2 id="1-servies">1、Servies</h2>
-<p>pandas创建一个一维数组</p>
-<pre><code class="language-python{cmd}">import pandas as pd
-import numpy as np
-
-s = pd.Series(['a', 'b', 'c'], index=[1, 2, 3])
-
-# 获取索引序列
-print(s.index)
-
-# 根据索引查找数据
-print(s[1])
-s[1] = &quot;e&quot;
-print(s[1])
-
-print('----------------------------------')
-# 多个索引或值查找
-s2 = pd.Series([1, 2, 6], index=['a', 'b', 'c'])
-# 自定义的索引('a', 'b', 'c')
-print(s2[['a', 'b']])
-# 第n行(0,1,2)
-print(s2[[1, 2]])
-# 值小于等于n
-print(s2[s2 &lt;= 3])
-
-print('----------------------------------')
-# in判断索引是否存在
-print(1 in s)
-
+<h2 id="1-使用trycatch捕获异常实现">1、使用try···catch捕获异常实现</h2>
+<pre><code class="language-javascript">try{
+var array = [&quot;first&quot;,&quot;second&quot;,&quot;third&quot;,&quot;fourth&quot;];
+array.forEach(function(item,index){
+	if(item == &quot;third&quot;){
+		var a = aaaa;// first second 后就报错，就跳出循环了
+		throw new Error(&quot;ending&quot;);//报错，就跳出循环
+	}else{
+		log(item);
+	}
+})
+}catch(e){
+	if(e.message == &quot;ending&quot;){
+		log(&quot;结束了&quot;) ;
+	}else{
+		log(e.message);
+	}
+}
 </code></pre>
-<p>通过<code>.index</code>改变索引</p>
-<pre><code class="language-python"># Series的索引可以通过按位置赋值的方式进行改变
-s.index = ['a','b','c']
+<h2 id="2-使用arrsome或者arrevery替代">2、使用arr.some()或者arr.every()替代</h2>
+<p>some()当内部return true时跳出整个循环：</p>
+<pre><code class="language-javascript">var arr = [1,2,3,4,5];
+var num = 3;
+arr.some(function(v){
+	if(v == num) {
+		return true;
+	}
+console.log(v);
+});
 </code></pre>
-<p>Python切片中是不包含尾部的，Series的自定义字符串索引的切片与之不同.</p>
-<pre><code class="language-python">import pandas as pd
-import numpy as np
-
-# 字符串索引
-s = pd.Series([1,2,3], index=['a', 'b', 'c'])
-# 数字索引
-s1 = pd.Series([1,2,3], index=[1, 2, 3])
-s2 = [1,2,3]
-print(s2[0:1])
-# 根据行数做切片与普通数组的切片相同
-print(s1[1:2])
-# 自定义字符串索引包含尾部
-print(s['a':'b'])
-
-# 可以使用切片更改数据
-s['a':'b'] = 4
-print(s)
-</code></pre>
-<h2 id="2-dataframe">2、DataFrame</h2>
-<h3 id="21-创建">2.1、创建</h3>
-<p>最常用的方式是利用包含等长度列表或NumPy数组的字典来形成DataFrame(某一列没有赋值，会出现缺省值NaN)</p>
-<pre><code class="language-python">import pandas as pd
-
-data = {'state': ['Ohio', 'Ohio', 'Ohio', 'Nevada', 'Nevada', 'Nevada'],
-        'year': [2000, 2001, 2002, 2001, 2002, 2003],
-        'pop': [1.5, 1.7, 3.6, 2.4, 2.9, 3.2]}
-frame = pd.DataFrame(data)
-
-print(frame)
-</code></pre>
-<p>设置列名与行名，<code>debt</code>列为空，为NaN</p>
-<pre><code class="language-python">&gt;&gt;&gt; frame2 = pd.DataFrame(data, columns=['year', 'state', 'pop', 'debt'],
-...                       index=['one', 'two', 'three', 'four',
-...                              'five', 'six'])
-&gt;&gt;&gt; frame2
-one    2000    Ohio  1.5  NaN
-two    2001    Ohio  1.7  NaN
-three  2002    Ohio  3.6  NaN
-four   2001  Nevada  2.4  NaN
-five   2002  Nevada  2.9  NaN
-six    2003  Nevada  3.2  NaN
-</code></pre>
-<h3 id="22-查找">2.2、查找</h3>
-<p><code>loc[]</code>获取某一行的数据</p>
-<pre><code class="language-python">import pandas as pd
-
-data = {'state': ['Ohio', 'Ohio', 'Ohio', 'Nevada', 'Nevada', 'Nevada'],
-        'year': [2000, 2001, 2002, 2001, 2002, 2003],
-        'pop': [1.5, 1.7, 3.6, 2.4, 2.9, 3.2]}
-frame = pd.DataFrame(data)
-
-# 查找某一行
-print(frame)
-print(frame.loc[1])
-
-# 多个索引查找
-
-
-# 创建新的一列
-frame['test'] = frame.state == 'Ohio'
-print(frame)
-# 删除一列
-del frame['test']
-print(frame.columns)
-</code></pre>
-<h3 id="23-根据布尔值切片">2.3、根据布尔值切片</h3>
-<p>可以根据一个布尔值数组选择数据，也可以比较所有的元素，对符合要求的元素执行操作。</p>
-<pre><code class="language-python{cmd}">import pandas as pd
-import numpy as np
-frame = pd.DataFrame(np.arange(20).reshape(4, 5),
-                      index=list('abcd'),
-                      columns=list('abcde'))
-# frame &lt; 5
-print(frame &lt; 5)
-# 将小于5的元素改为0
-frame[frame &lt; 5] = 0
-print(frame)
-# 根据列的比较结果显示数据
-print(frame[frame['b'] &gt; 10])
-
-print(frame)
-</code></pre>
-<h3 id="24-loc与iloc索引">2.4、loc与iloc索引</h3>
-<p>标签选出单行多列的数据可以使用<code>loc</code>（也就是自定义的索引）</p>
-<pre><code class="language-python">import numpy as np
-import pandas as pd
-
-frame = pd.DataFrame(np.arange(20).reshape(4, 5),
-                      index=list('abcd'),
-                      columns=list('abcde'))
-# 获取某一行
-print(frame.loc['a'])
-# 获取某一行的n列数据
-print(frame.loc['a',['a', 'b']])
-# 
-print(frame.loc[['a','b'],['a', 'b']])
-</code></pre>
-<p>整数标签<code>iloc</code>进行类似的数据选择</p>
-<pre><code class="language-python">import numpy as np
-import pandas as pd
-
-frame = pd.DataFrame(np.arange(20).reshape(4, 5),
-                      index=list('abcd'),
-                      columns=list('abcde'))
-print(frame.iloc[1])
-
-print(frame.iloc[1,[1,2]])
-
-print(frame.iloc[[1,2],[1,2]])
-</code></pre>
-<h3 id="25-整数索引问题">2.5、整数索引问题</h3>
-<pre><code class="language-python">import numpy as np
-import pandas as pd
-
-
-</code></pre>
-<p>当使用字符串的索引就不会对s[-1]产生歧义</p>
-<p>所以你有一个包含整数的轴索引，数据选择时请始终使用标签索引。</p>
-<h3 id="26-广播机制">2.6、广播机制</h3>
-<h3 id="27-函数">2.7、函数</h3>
-<p>使用<code>apply</code>可以取出每一行或每一列的元素。<code>axis = 'columns'</code>取出每一行，以行为索引。默认为列。<br>
-可以使用函数对数据进行更复杂的操作</p>
-<pre><code class="language-python">import numpy as np
-import pandas as pd
-
-df = pd.DataFrame(np.arange(20).reshape(4, 5),
-                  columns=list('abcde'))
-
-# 求每组数据的最大最小值的差
-
-
-def f(x): return x.max()-x.min()
-
-
-# 默认为取出每列
-series = df.apply(f)
-print(series)
-
-# 取出每行
-series = df.apply(f, axis=&quot;columns&quot;)
-print(series)
-</code></pre>
-<p>使用<code>applymap</code>取出每个元素</p>
-<pre><code class="language-python">import numpy as np
-import pandas as pd
-
-df = pd.DataFrame(np.arange(20).reshape(4, 5),
-                  columns=list('abcde'))
-# 处理所有的元素
-# 求平方
-def f2(x): return x**2
-
-
-data_frame = df.applymap(f2)
-print(data_frame)
-
-# 处理某一行
-data_frame = df.loc[1].map(f2)
-print(data_frame)
+<p>every()当内部return false时跳出整个循环</p>
+<pre><code class="language-javascript">var arr = [1,2,3,4,5];
+var num = 3;
+arr.every(function(v){
+	if(v == num) {
+		return false;
+	}else{
+		console.log(v);
+		return true;
+	}
+});
 </code></pre>
 
                 </div>
@@ -331,26 +175,13 @@ print(data_frame)
 
             <section class="related section">
               
-              <article class="prev grid-50 tablet-grid-50 grid-parent">
-                <div class="thumb cover lazy loaded" style="background-image: url('https://Eakamm.github.io/post-images/js-zhong-tiao-chu-foreach-xun-huan.jpg');"></div>
-                 <a href="https://Eakamm.github.io/post/js-zhong-tiao-chu-foreach-xun-huan/" class="full-link"></a>
-                 <div class="info">
-                  <time datetime="2020-09-27">2020-09-27</time>
-                  <h4 class="title white no-margin">js中跳出forEach循环</h4>
-                </div>
-                 <span class="epcl-button red">
-                  <img src="https://Eakamm.github.io/media/images/left-arrow.svg" width="15" alt="Left Arrow">
-                </span>
-                <div class="overlay"></div>
-              </article>
-              
               
               <article class="next grid-50 tablet-grid-50 grid-parent">
-                <div class="thumb cover lazy loaded" style="background-image: url('https://Eakamm.github.io/post-images/chang-yong-shu-zi-zheng-ze-biao-da-shi.jpg');"></div>
-                 <a href="https://Eakamm.github.io/post/chang-yong-shu-zi-zheng-ze-biao-da-shi/" class="full-link"></a>
+                <div class="thumb cover lazy loaded" style="background-image: url('https://Eakamm.github.io/post-images/pandas-ji-chu-yi.jpg');"></div>
+                 <a href="https://Eakamm.github.io/post/pandas-ji-chu-yi/" class="full-link"></a>
                  <div class="info">
-                  <time datetime="2020-09-11">2020-09-11</time>
-                  <h4 class="title white no-margin">常用数字正则表达式</h4>
+                  <time datetime="2020-09-25">2020-09-25</time>
+                  <h4 class="title white no-margin">Pandas基础（一）</h4>
                 </div>
                  <span class="epcl-button red">
                   <img src="https://Eakamm.github.io/media/images/right-arrow.svg" width="15" alt="Left Arrow">

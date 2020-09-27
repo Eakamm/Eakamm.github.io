@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://Eakamm.github.io</id>
     <title>刘志豪的博客</title>
-    <updated>2020-09-25T06:54:57.983Z</updated>
+    <updated>2020-09-27T07:17:38.896Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://Eakamm.github.io"/>
     <link rel="self" href="https://Eakamm.github.io/atom.xml"/>
@@ -10,6 +10,60 @@
     <logo>https://Eakamm.github.io/images/avatar.png</logo>
     <icon>https://Eakamm.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, 刘志豪的博客</rights>
+    <entry>
+        <title type="html"><![CDATA[js中跳出forEach循环]]></title>
+        <id>https://Eakamm.github.io/post/js-zhong-tiao-chu-foreach-xun-huan/</id>
+        <link href="https://Eakamm.github.io/post/js-zhong-tiao-chu-foreach-xun-huan/">
+        </link>
+        <updated>2020-09-27T07:08:57.000Z</updated>
+        <summary type="html"><![CDATA[<p>在使用forEach中需要在处理后跳出循环，return和break都无法跳出。经过查找资料后，我找到了两种方法可以实现跳出循环。当然可以使用for循环直接解决🌸🐔</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>在使用forEach中需要在处理后跳出循环，return和break都无法跳出。经过查找资料后，我找到了两种方法可以实现跳出循环。当然可以使用for循环直接解决🌸🐔</p>
+<!-- more -->
+<h2 id="1-使用trycatch捕获异常实现">1、使用try···catch捕获异常实现</h2>
+<pre><code class="language-javascript">try{
+var array = [&quot;first&quot;,&quot;second&quot;,&quot;third&quot;,&quot;fourth&quot;];
+array.forEach(function(item,index){
+	if(item == &quot;third&quot;){
+		var a = aaaa;// first second 后就报错，就跳出循环了
+		throw new Error(&quot;ending&quot;);//报错，就跳出循环
+	}else{
+		log(item);
+	}
+})
+}catch(e){
+	if(e.message == &quot;ending&quot;){
+		log(&quot;结束了&quot;) ;
+	}else{
+		log(e.message);
+	}
+}
+</code></pre>
+<h2 id="2-使用arrsome或者arrevery替代">2、使用arr.some()或者arr.every()替代</h2>
+<p>some()当内部return true时跳出整个循环：</p>
+<pre><code class="language-javascript">var arr = [1,2,3,4,5];
+var num = 3;
+arr.some(function(v){
+	if(v == num) {
+		return true;
+	}
+console.log(v);
+});
+</code></pre>
+<p>every()当内部return false时跳出整个循环</p>
+<pre><code class="language-javascript">var arr = [1,2,3,4,5];
+var num = 3;
+arr.every(function(v){
+	if(v == num) {
+		return false;
+	}else{
+		console.log(v);
+		return true;
+	}
+});
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Pandas基础（一）]]></title>
         <id>https://Eakamm.github.io/post/pandas-ji-chu-yi/</id>
