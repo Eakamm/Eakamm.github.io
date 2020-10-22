@@ -1,0 +1,624 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Quartz作业调度 | 刘志豪的博客</title>
+<meta name="description" content="温故而知新" />
+<link rel="shortcut icon" href="https://Eakamm.github.io/favicon.ico">
+<link rel="stylesheet" href="https://Eakamm.github.io/styles/main.css">
+
+<script src="https://Eakamm.github.io/media/js/jquery.min.js"></script>
+<script src="https://Eakamm.github.io/media/js/masonry.pkgd.min.js"></script>
+<script src="https://Eakamm.github.io/media/js/aos.js"></script>
+<script src="https://Eakamm.github.io/media/js/pace.min.js"></script>
+<script src="https://Eakamm.github.io/media/js/view-image.min.js"></script>
+<script src="https://Eakamm.github.io/media/js/jquery.magnific-popup.min.js"></script>
+<script src="https://Eakamm.github.io/media/js/functions.js"></script>
+    <meta name="referrer" content="never">
+    <meta name="description" content="Quartz是一个很牛的任务调度框架，通过它我们可以实现诸如:定时活动、延时活动、订单状态延时检测、服务器状态定时检测等，时间调度任务功能。
+
+一、什么是 Quartz
+什么是 Quartz?
+
+Quartz 是 OpenSymphony ..." />
+    <meta name="keywords" content="Quartz,SpringBoot" />
+    <script src="https://Eakamm.github.io/media/js/waterfall.min.js"></script>
+    <script src="https://Eakamm.github.io/media/js/prism.min.js"></script>
+  </head>
+  <body>
+            <header id="header" class="grid-container">
+        <!-- start: .menu-wrapper -->
+        <div class="menu-mobile"> 
+          <i class="fa fa-reorder"></i>
+        </div>
+        <div class="menu-wrapper">
+          <div class="">
+            <div class="logo">
+              <a href="https://Eakamm.github.io"><img src="\media\images\custom-headerLogo.png" alt=""></a>
+            </div>
+            <!-- start: .main-nav -->
+
+            <nav class="main-nav grid-container grid-parent">
+              <ul id="menu-header" class="menu gradient-effect">
+                <li class=""><a href="https://Eakamm.github.io" class="menu">首页</a></li>
+                
+                  <li class="" >
+                    <a href="/" class="menu">
+                      首页
+                    </a>
+                  </li>
+                
+                  <li class="" >
+                    <a href="/archives" class="menu">
+                      归档
+                    </a>
+                  </li>
+                
+                  <li class="" >
+                    <a href="/tags" class="menu">
+                      标签
+                    </a>
+                  </li>
+                
+                  <li class="" >
+                    <a href="/post/about" class="menu">
+                      关于
+                    </a>
+                  </li>
+                
+                <li class="search-menu-item hide-on-mobile hide-on-tablet"><a href="#search-lightbox" class="lightbox mfp-inline"><i class="fa fa-search-line"></i></a></li>
+              </ul>
+            </nav>
+            <a href="#search-lightbox" class="lightbox epcl-search-button mfp-inline hide-on-tablet hide-on-desktop"><i class="fa fa-search-line"></i></a>
+            <!-- end: .main-nav -->
+            <div class="clear"></div>
+            <div class="border hide-on-tablet hide-on-mobile"></div>
+          </div>    
+          <div class="clear"></div>
+        </div>
+        <!-- end: .menu-wrapper -->
+        <div class="clear"></div>
+      </header>
+      <div class="hide-on-mobile hide-on-tablet hide-on-desktop">
+        <div id="search-lightbox" class="grid-container grid-small grid-parent mfp-hide">
+          <div class="search-wrapper section">
+            <form id="gridea-search-form" data-update="1603333372615" action="/search/index.html" class="search-form" _lpchecked="1">
+              <input type="text" name="q" id="s" value="" class="search-field" placeholder="搜点啥..." aria-label="搜点啥..." required="">
+              <button type="submit" class="submit" aria-label="Submit">
+                <i class="fa fa-search-line"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <main id="single" class="main grid-container fullcover no-sidebar aos-init aos-animate" data-aos="fade">
+
+        <div class="center content">
+          <div class="featured-image cover" style="background-image: url('https://Eakamm.github.io/post-images/quartz-zuo-ye-diao-du.png');">
+            <div class="meta top"> 
+              <time class="meta-info" style="float:left;" datetime="2020-10-09"><i class="fa fa-calendar"></i><span class="lately">13 天前</span></time>
+              
+              <a href="https://Eakamm.github.io/post/quartz-zuo-ye-diao-du/#comments" class="comments meta-info" title="">
+                <i class="fa fa-comment remixicon"></i><span class="comment-count valine-comment-count" data-xid="/quartz-zuo-ye-diao-du/"> </span>
+              </a>
+              <span id="/quartz-zuo-ye-diao-du/" class="leancloud_visitors views-counter meta-info" title=""><i class="fa fa-leancloud remixicon"></i><span class="leancloud-visitors-count"></span></span>
+              
+            </div>
+            <div class="info">
+              <div class="tags ">
+                
+                      <a href="https://Eakamm.github.io/tag/G_-kZffdc/" class="ctag ctag-0 ctag-G_-kZffdc" aria-label="">Quartz</a>
+                    
+                      <a href="https://Eakamm.github.io/tag/OdKZfGOT_/" class="ctag ctag-1 ctag-OdKZfGOT_" aria-label="">SpringBoot</a>
+                    
+              </div>
+              <h1 class="title ularge white bold">Quartz作业调度</h1>
+            </div>
+          </div>
+        </div>  
+
+        <div class="epcl-page-wrapper">
+          <div class="left-content grid-70 np-mobile">
+            <article class="main-article post">
+              <section class="post-content">
+                <div class="text">
+                  <p>Quartz是一个很牛的任务调度框架，通过它我们可以实现诸如:定时活动、延时活动、订单状态延时检测、服务器状态定时检测等，时间调度任务功能。</p>
+<!-- more -->
+<h2 id="一-什么是-quartz">一、什么是 Quartz</h2>
+<p>什么是 Quartz?</p>
+<blockquote>
+<p>Quartz 是 OpenSymphony 开源组织在 Job scheduling 领域又一个开源项目，完全由 Java 开发，可以用来执行定时任务，类似于 java.util.Timer。但是相较于 Timer， Quartz 增加了很多功能：</p>
+<ul>
+<li>持久性作业 - 就是保持调度定时的状态;</li>
+<li>作业管理 - 对调度作业进行有效的管理;</li>
+</ul>
+</blockquote>
+<p>大部分公司都会用到定时任务这个功能。<br>
+拿火车票购票来说，当你下单后，后台就会插入一条待支付的 task(job)，一般是 30 分钟，超过 30min 后就会执行这个 job，去判断你是否支付，未支付就会取消此次订单；当你支付完成之后，后台拿到支付回调后就会再插入一条待消费的 task（job），Job 触发日期为火车票上的出发日期，超过这个时间就会执行这个 job，判断是否使用等。</p>
+<p>在我们实际的项目中，当 Job 过多的时候，肯定不能人工去操作，这时候就需要一个任务调度框架，帮我们自动去执行这些程序。那么该如何实现这个功能呢？</p>
+<p>（1）首先我们需要定义实现一个定时功能的接口，我们可以称之为 Task（或 Job），如定时发送邮件的 task（Job），重启机器的 task（Job），优惠券到期发送短信提醒的 task（Job），实现接口如下：<br>
+<img src="https://img-blog.csdn.net/20180710135410275?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25vYW1hbl93Z3M=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="" loading="lazy"></p>
+<p>（2）有了任务之后，还需要一个能够实现触发任务去执行的触发器，触发器 Trigger 最基本的功能是指定 Job 的执行时间，执行间隔，运行次数等。<br>
+<img src="https://img-blog.csdn.net/20180710135421739?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25vYW1hbl93Z3M=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="" loading="lazy"></p>
+<p>（3）有了 Job 和 Trigger 后，怎么样将两者结合起来呢？即怎样指定 Trigger 去执行指定的 Job 呢？这时需要一个 Schedule，来负责这个功能的实现。<br>
+<img src="https://img-blog.csdn.net/20180710135431806?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25vYW1hbl93Z3M=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="" loading="lazy"></p>
+<p>上面三个部分就是 Quartz 的基本组成部分：</p>
+<ul>
+<li>调度器：Scheduler</li>
+<li>任务：JobDetail</li>
+<li>触发器：Trigger，包括 SimpleTrigger 和 CronTrigger</li>
+</ul>
+<h2 id="二-quartz-demo-搭建">二、Quartz Demo 搭建</h2>
+<p>下面来利用 Quartz 搭建一个最基本的 Demo。<br>
+1、导入依赖的 jar 包：</p>
+<pre><code class="language-xml">&lt;!-- https://mvnrepository.com/artifact/org.quartz-scheduler/quartz --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.quartz-scheduler&lt;/groupId&gt;
+    &lt;artifactId&gt;quartz&lt;/artifactId&gt;
+    &lt;version&gt;2.3.0&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+<p>2、新建一个能够打印任意内容的 Job：</p>
+<pre><code class="language-java">/**
+ * Created by wanggenshen
+ * Date: on 2018/7/7 16:28.
+ * Description: 打印任意内容
+ */
+public class PrintWordsJob implements Job{
+
+    @Override
+    public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
+        String printTime = new SimpleDateFormat(&quot;yy-MM-dd HH-mm-ss&quot;).format(new Date());
+        System.out.println(&quot;PrintWordsJob start at:&quot; + printTime + &quot;, prints: Hello Job-&quot; + new Random().nextInt(100));
+
+    }
+}
+</code></pre>
+<p>3、创建 Schedule，执行任务：</p>
+<pre><code class="language-java">/**
+ * Created by wanggenshen
+ * Date: on 2018/7/7 16:31.
+ * Description: XXX
+ */
+public class MyScheduler {
+
+    public static void main(String\[\] args) throws SchedulerException, InterruptedException {
+        // 1、创建调度器Scheduler
+        SchedulerFactory schedulerFactory = new StdSchedulerFactory();
+        Scheduler scheduler = schedulerFactory.getScheduler();
+        // 2、创建JobDetail实例，并与PrintWordsJob类绑定(Job执行内容)
+        JobDetail jobDetail = JobBuilder.newJob(PrintWordsJob.class)
+                                        .withIdentity(&quot;job1&quot;, &quot;group1&quot;).build();
+        // 3、构建Trigger实例,每隔1s执行一次
+        Trigger trigger = TriggerBuilder.newTrigger().withIdentity(&quot;trigger1&quot;, &quot;triggerGroup1&quot;)
+                .startNow()//立即生效
+                .withSchedule(SimpleScheduleBuilder.simpleSchedule()
+                .withIntervalInSeconds(1)//每隔1s执行一次
+                .repeatForever()).build();//一直执行
+
+        //4、执行
+        scheduler.scheduleJob(jobDetail, trigger);
+        System.out.println(&quot;--------scheduler start ! ------------&quot;);
+        scheduler.start();
+
+        //睡眠
+        TimeUnit.MINUTES.sleep(1);
+        scheduler.shutdown();
+        System.out.println(&quot;--------scheduler shutdown ! ------------&quot;);
+
+
+    }
+}
+</code></pre>
+<p>运行程序，可以看到程序每隔 1s 会打印出内容，且在一分钟后结束：<br>
+<img src="https://img-blog.csdn.net/20180710135458277?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25vYW1hbl93Z3M=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="" loading="lazy"></p>
+<h2 id="三-quartz-核心详解">三、Quartz 核心详解</h2>
+<p>下面就程序中出现的几个参数，看一下 Quartz 框架中的几个重要参数：</p>
+<ul>
+<li>Job 和 JobDetail</li>
+<li>JobExecutionContext</li>
+<li>JobDataMap</li>
+<li>Trigger、SimpleTrigger、CronTrigger</li>
+</ul>
+<p>（1）Job 和 JobDetail<br>
+Job 是 Quartz 中的一个接口，接口下只有 execute 方法，在这个方法中编写业务逻辑。<br>
+接口中的源码：<br>
+<img src="https://img-blog.csdn.net/20180710135513678?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25vYW1hbl93Z3M=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="" loading="lazy"></p>
+<p>JobDetail 用来绑定 Job，为 Job 实例提供许多属性：</p>
+<ul>
+<li>name</li>
+<li>group</li>
+<li>jobClass</li>
+<li>jobDataMap</li>
+</ul>
+<p>JobDetail 绑定指定的 Job，每次 Scheduler 调度执行一个 Job 的时候，首先会拿到对应的 Job，然后创建该 Job 实例，再去执行 Job 中的 execute() 的内容，任务执行结束后，关联的 Job 对象实例会被释放，且会被 JVM GC 清除。</p>
+<p>为什么设计成 JobDetail + Job，不直接使用 Job</p>
+<blockquote>
+<p>JobDetail 定义的是任务数据，而真正的执行逻辑是在 Job 中。<br>
+这是因为任务是有可能并发执行，如果 Scheduler 直接使用 Job，就会存在对同一个 Job 实例并发访问的问题。而 JobDetail &amp; Job 方式，Sheduler 每次执行，都会根据 JobDetail 创建一个新的 Job 实例，这样就可以规避并发访问的问题。</p>
+</blockquote>
+<p>（2）JobExecutionContext<br>
+JobExecutionContext 中包含了 Quartz 运行时的环境以及 Job 本身的详细数据信息。<br>
+当 Schedule 调度执行一个 Job 的时候，就会将 JobExecutionContext 传递给该 Job 的 execute() 中，Job 就可以通过 JobExecutionContext 对象获取信息。<br>
+主要信息有：<br>
+<img src="https://img-blog.csdn.net/20180710135537517?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25vYW1hbl93Z3M=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="" loading="lazy"></p>
+<p>（3）JobExecutionContext<br>
+JobDataMap 实现了 JDK 的 Map 接口，可以以 Key-Value 的形式存储数据。<br>
+JobDetail、Trigger 都可以使用 JobDataMap 来设置一些参数或信息，<br>
+Job 执行 execute() 方法的时候，JobExecutionContext 可以获取到 JobExecutionContext 中的信息：<br>
+如：</p>
+<pre><code class="language-java">JobDetail jobDetail = JobBuilder.newJob(PrintWordsJob.class)                        .usingJobData(&quot;jobDetail1&quot;, &quot;这个Job用来测试的&quot;)
+                  .withIdentity(&quot;job1&quot;, &quot;group1&quot;).build();
+
+ Trigger trigger = TriggerBuilder.newTrigger().withIdentity(&quot;trigger1&quot;, &quot;triggerGroup1&quot;)
+      .usingJobData(&quot;trigger1&quot;, &quot;这是jobDetail1的trigger&quot;)
+      .startNow()//立即生效
+      .withSchedule(SimpleScheduleBuilder.simpleSchedule()
+      .withIntervalInSeconds(1)//每隔1s执行一次
+      .repeatForever()).build();//一直执行
+</code></pre>
+<p>Job 执行的时候，可以获取到这些参数信息：</p>
+<pre><code class="language-java">@Override
+    public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
+
+        System.out.println(jobExecutionContext.getJobDetail().getJobDataMap().get(&quot;jobDetail1&quot;));
+        System.out.println(jobExecutionContext.getTrigger().getJobDataMap().get(&quot;trigger1&quot;));
+        String printTime = new SimpleDateFormat(&quot;yy-MM-dd HH-mm-ss&quot;).format(new Date());
+        System.out.println(&quot;PrintWordsJob start at:&quot; + printTime + &quot;, prints: Hello Job-&quot; + new Random().nextInt(100));
+
+
+    }
+</code></pre>
+<p>（4）Trigger、SimpleTrigger、CronTrigger</p>
+<ul>
+<li><strong>Trigger</strong></li>
+</ul>
+<p>Trigger 是 Quartz 的触发器，会去通知 Scheduler 何时去执行对应 Job。</p>
+<pre><code>new Trigger().startAt():表示触发器首次被触发的时间;
+new Trigger().endAt():表示触发器结束触发的时间;
+</code></pre>
+<ul>
+<li><strong>SimpleTrigger</strong><br>
+SimpleTrigger 可以实现在一个指定时间段内执行一次作业任务或一个时间段内多次执行作业任务。<br>
+下面的程序就实现了程序运行 5s 后开始执行 Job，执行 Job 5s 后结束执行：</li>
+</ul>
+<pre><code>Date startDate = new Date();
+startDate.setTime(startDate.getTime() + 5000);
+
+ Date endDate = new Date();
+ endDate.setTime(startDate.getTime() + 5000);
+
+        Trigger trigger = TriggerBuilder.newTrigger().withIdentity(&quot;trigger1&quot;, &quot;triggerGroup1&quot;)
+                .usingJobData(&quot;trigger1&quot;, &quot;这是jobDetail1的trigger&quot;)
+                .startNow()//立即生效
+                .startAt(startDate)
+                .endAt(endDate)
+                .withSchedule(SimpleScheduleBuilder.simpleSchedule()
+                .withIntervalInSeconds(1)//每隔1s执行一次
+                .repeatForever()).build();//一直执行
+</code></pre>
+<ul>
+<li><strong>CronTrigger</strong></li>
+</ul>
+<p>CronTrigger 功能非常强大，是基于日历的作业调度，而 SimpleTrigger 是精准指定间隔，所以相比 SimpleTrigger，CroTrigger 更加常用。CroTrigger 是基于 Cron 表达式的，先了解下 Cron 表达式：<br>
+由 7 个子表达式组成字符串的，格式如下：</p>
+<blockquote>
+<p>[秒] [分] [小时] [日] [月] [周] [年]</p>
+</blockquote>
+<p>Cron 表达式的语法比较复杂，<br>
+如：* 30 10 ? * 1/5 *<br>
+表示（从后往前看）<br>
+[指定年份] 的 [ 周一到周五][指定月][不指定日][上午 10 时][30 分][指定秒]</p>
+<p>又如：00 00 00 ？ * 10,11,12 1#5 2018<br>
+表示 2018 年 10、11、12 月的第一周的星期五这一天的 0 时 0 分 0 秒去执行任务。</p>
+<p>下面是给的一个例子：<br>
+<img src="https://img-blog.csdn.net/20180710135615747?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25vYW1hbl93Z3M=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="" loading="lazy"></p>
+<p>可通过在线生成 Cron 表达式的工具：<a href="http://cron.qqe2.com/">http://cron.qqe2.com/</a> 来生成自己想要的表达式。<br>
+<img src="https://img-blog.csdn.net/20180710135623995?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25vYW1hbl93Z3M=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="" loading="lazy"></p>
+<p>下面的代码就实现了每周一到周五上午 10:30 执行定时任务</p>
+<pre><code class="language-java">/**
+ * Created by wanggenshen
+ * Date: on 2018/7/7 20:06.
+ * Description: XXX
+*/
+public class MyScheduler2 {
+    public static void main(String\[\] args) throws SchedulerException, InterruptedException {
+        // 1、创建调度器Scheduler
+        SchedulerFactory schedulerFactory = new StdSchedulerFactory();
+        Scheduler scheduler = schedulerFactory.getScheduler();
+        // 2、创建JobDetail实例，并与PrintWordsJob类绑定(Job执行内容)
+        JobDetail jobDetail = JobBuilder.newJob(PrintWordsJob.class)
+                .usingJobData(&quot;jobDetail1&quot;, &quot;这个Job用来测试的&quot;)
+                .withIdentity(&quot;job1&quot;, &quot;group1&quot;).build();
+        // 3、构建Trigger实例,每隔1s执行一次
+        Date startDate = new Date();
+        startDate.setTime(startDate.getTime() + 5000);
+
+        Date endDate = new Date();
+        endDate.setTime(startDate.getTime() + 5000);
+
+        CronTrigger cronTrigger = TriggerBuilder.newTrigger().withIdentity(&quot;trigger1&quot;, &quot;triggerGroup1&quot;)
+                .usingJobData(&quot;trigger1&quot;, &quot;这是jobDetail1的trigger&quot;)
+                .startNow()//立即生效
+                .startAt(startDate)
+                .endAt(endDate)
+                .withSchedule(CronScheduleBuilder.cronSchedule(&quot;\* 30 10 ? \* 1/5 2018&quot;))
+                .build();
+
+        //4、执行
+        scheduler.scheduleJob(jobDetail, cronTrigger);
+        System.out.println(&quot;--------scheduler start ! ------------&quot;);
+        scheduler.start();
+        System.out.println(&quot;--------scheduler shutdown ! ------------&quot;);
+
+    }
+}
+</code></pre>
+<hr>
+<p>2018/07/07 20:10 in SH.</p>
+
+                </div>
+                <div class="clear"></div>
+              </section>
+            </article>
+            <div class="clear"></div>
+
+            <section class="related section">
+              
+              <article class="prev grid-50 tablet-grid-50 grid-parent">
+                <div class="thumb cover lazy loaded" style="background-image: url('https://Eakamm.github.io/post-images/springboot-yu-quartz-zheng-he.png');"></div>
+                 <a href="https://Eakamm.github.io/post/springboot-yu-quartz-zheng-he/" class="full-link"></a>
+                 <div class="info">
+                  <time datetime="2020-10-09">2020-10-09</time>
+                  <h4 class="title white no-margin">SpringBoot与Quartz整合</h4>
+                </div>
+                 <span class="epcl-button red">
+                  <img src="https://Eakamm.github.io/media/images/left-arrow.svg" width="15" alt="Left Arrow">
+                </span>
+                <div class="overlay"></div>
+              </article>
+              
+              
+              <article class="next grid-50 tablet-grid-50 grid-parent">
+                <div class="thumb cover lazy loaded" style="background-image: url('https://Eakamm.github.io/post-images/springboot-shi-yong-getmapping-shi-dui-xiang-zuo-wei-can-shu-dui-xiang-de-shu-xing-bu-ke-yi-_-kai-tou.jpg');"></div>
+                 <a href="https://Eakamm.github.io/post/springboot-shi-yong-getmapping-shi-dui-xiang-zuo-wei-can-shu-dui-xiang-de-shu-xing-bu-ke-yi-_-kai-tou/" class="full-link"></a>
+                 <div class="info">
+                  <time datetime="2020-09-28">2020-09-28</time>
+                  <h4 class="title white no-margin">SpringBoot使用GetMapping时对象作为参数，对象的属性不可以_开头</h4>
+                </div>
+                 <span class="epcl-button red">
+                  <img src="https://Eakamm.github.io/media/images/right-arrow.svg" width="15" alt="Left Arrow">
+                </span>
+                <div class="overlay"></div>
+              </article>
+              
+
+                <div class="clear"></div>
+            </section>
+
+              <div class="clear"></div>
+              
+            
+              <div id="comments" class="bg-white hosted ">
+                <div class="clear"></div>
+<script>
+jQuery(document).ready(function($){
+    $('.vemoji-btn').text('😀');
+    $("#comments").on('click', 'span.vat',function(){
+        $(this).parent('div.vmeta').next("div.vcontent").after($("div.vwrap"));
+        $('textarea#veditor').focus();
+    })
+    if(window.location.hash){
+        var checkExist = setInterval(function() {
+            if ($(window.location.hash).length) {
+                $('html, body').animate({scrollTop: $(window.location.hash).offset().top-200}, 600);
+                clearInterval(checkExist);
+            }
+        }, 100);
+    }
+})
+</script>
+
+              </div>
+            
+
+            </div>
+          </div>
+      </main>
+
+          <footer id="footer" class="grid-container">
+        <div class="widgets row gradient-effect">
+            <div class="default-sidebar border-effect">
+              <div class="grid-33 tablet-grid-50 mobile-grid-100">
+                <section id="tag_cloud-2" class="widget widget_epcl_posts_thumbs underline-effect">
+                  <h4 class="widget-title title white bordered">最新文章</h4>
+                  
+                  
+                  <article class="item post-0 post type-post status-publish format-standard has-post-thumbnail hentry">
+                    <a href="https://Eakamm.github.io/post/lombok-de-keng-da-xiao-xie-wen-ti/" class="thumb hover-effect">
+                      <span class="fullimage cover" style="display:block;border-radius:50%;background-image: url('https://Eakamm.github.io/post-images/lombok-de-keng-da-xiao-xie-wen-ti.jpg');"></span>
+                    </a>
+                    <div class="info gradient-effect">
+                      <time datetime="2020-10-22">2020-10-22</time>
+                      <h4 class="title usmall">
+                        <a href="https://Eakamm.github.io/post/lombok-de-keng-da-xiao-xie-wen-ti/">Lombok的坑大小写问题</a>
+                      </h4>
+                    </div>
+                    <div class="clear"></div>
+                  </article>
+                  
+                  
+                  
+                  <article class="item post-1 post type-post status-publish format-standard has-post-thumbnail hentry">
+                    <a href="https://Eakamm.github.io/post/java-chang-yong-shi-jian-bi-jiao-fang-shi/" class="thumb hover-effect">
+                      <span class="fullimage cover" style="display:block;border-radius:50%;background-image: url('https://Eakamm.github.io/post-images/java-chang-yong-shi-jian-bi-jiao-fang-shi.jpg');"></span>
+                    </a>
+                    <div class="info gradient-effect">
+                      <time datetime="2020-10-19">2020-10-19</time>
+                      <h4 class="title usmall">
+                        <a href="https://Eakamm.github.io/post/java-chang-yong-shi-jian-bi-jiao-fang-shi/">Java 常用时间比较方式</a>
+                      </h4>
+                    </div>
+                    <div class="clear"></div>
+                  </article>
+                  
+                  
+                  
+                  <article class="item post-2 post type-post status-publish format-standard has-post-thumbnail hentry">
+                    <a href="https://Eakamm.github.io/post/sql-chuang-kou-han-shu-pai-ming-wen-ti/" class="thumb hover-effect">
+                      <span class="fullimage cover" style="display:block;border-radius:50%;background-image: url('/media/images/gridea.jpg');"></span>
+                    </a>
+                    <div class="info gradient-effect">
+                      <time datetime="2020-10-19">2020-10-19</time>
+                      <h4 class="title usmall">
+                        <a href="https://Eakamm.github.io/post/sql-chuang-kou-han-shu-pai-ming-wen-ti/">Sql窗口函数--排名问题</a>
+                      </h4>
+                    </div>
+                    <div class="clear"></div>
+                  </article>
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  <div class="clear"></div>
+                </section>
+              </div>
+
+              <div class="grid-33 tablet-grid-50 mobile-grid-100">
+                <section id="tag_cloud-2" class="widget widget_tag_cloud underline-effect">
+                  <h4 class="widget-title title white bordered">标签云</h4>
+                  <div class="tagcloud">
+                    
+                      <a href="https://Eakamm.github.io/tag/OdKZfGOT_/" class="ctag ctag-0 ctag-OdKZfGOT_" aria-label="">SpringBoot</a>
+                    
+                      <a href="https://Eakamm.github.io/tag/VVAqyIHur/" class="ctag ctag-1 ctag-VVAqyIHur" aria-label="">坑</a>
+                    
+                      <a href="https://Eakamm.github.io/tag/ZX_BGyWbN/" class="ctag ctag-2 ctag-ZX_BGyWbN" aria-label="">Java</a>
+                    
+                      <a href="https://Eakamm.github.io/tag/G_-kZffdc/" class="ctag ctag-3 ctag-G_-kZffdc" aria-label="">Quartz</a>
+                    
+                      <a href="https://Eakamm.github.io/tag/tjl78Jr5n/" class="ctag ctag-4 ctag-tjl78Jr5n" aria-label="">JavaScript</a>
+                    
+                      <a href="https://Eakamm.github.io/tag/aYAE_85kY/" class="ctag ctag-5 ctag-aYAE_85kY" aria-label="">Python</a>
+                    
+                      <a href="https://Eakamm.github.io/tag/eVLL_p5ATD/" class="ctag ctag-6 ctag-eVLL_p5ATD" aria-label="">Pandas</a>
+                    
+                      <a href="https://Eakamm.github.io/tag/m13UWVHSwx/" class="ctag ctag-7 ctag-m13UWVHSwx" aria-label="">数据处理</a>
+                    
+                      <a href="https://Eakamm.github.io/tag/omXAxMDe7/" class="ctag ctag-8 ctag-omXAxMDe7" aria-label="">其他</a>
+                    
+                      <a href="https://Eakamm.github.io/tag/oOLukB2Rlq/" class="ctag ctag-9 ctag-oOLukB2Rlq" aria-label="">Spring</a>
+                    
+                      <a href="https://Eakamm.github.io/tag/Lo0Xud3TPi/" class="ctag ctag-10 ctag-Lo0Xud3TPi" aria-label="">ES6</a>
+                    
+                      <a href="https://Eakamm.github.io/tag/xmFdSMSrZ/" class="ctag ctag-11 ctag-xmFdSMSrZ" aria-label="">Mysql</a>
+                    
+                      <a href="https://Eakamm.github.io/tag/DuyR84tOfM/" class="ctag ctag-12 ctag-DuyR84tOfM" aria-label="">数据库</a>
+                    
+                      <a href="https://Eakamm.github.io/tag/ocKSi1PBm/" class="ctag ctag-13 ctag-ocKSi1PBm" aria-label="">UI</a>
+                    
+                      <a href="https://Eakamm.github.io/tag/bYITpN4Lrh/" class="ctag ctag-14 ctag-bYITpN4Lrh" aria-label="">前端</a>
+                    
+                      <a href="https://Eakamm.github.io/tag/c5epEfQ21/" class="ctag ctag-15 ctag-c5epEfQ21" aria-label="">Gridea</a>
+                    
+                  </div>
+                  <div class="clear"></div>
+                </section>
+              </div>
+
+              <div class="grid-33 tablet-grid-50 mobile-grid-100">
+                <section id="epcl_about-2" class="widget widget_epcl_about underline-effect">
+                  <h4 class="widget-title title white bordered">关于我</h4>
+                  <div class="avatar">
+                    <a href="" class="translate-effect thumb"><span class="fullimage cover" style="background-image: url(https://Eakamm.github.io/images/avatar.png);"></span></a>
+                  </div>
+                  <div class="info">
+                    <h4 class="title small author-name gradient-effect no-margin"><a href="">刘志豪的博客</a></h4>
+                    <p class="founder">温故而知新</p>
+                    <div class="social">
+                      
+                        
+                      
+                        
+                      
+                        
+                      
+                        
+                      
+                        
+                      
+                    </div> 
+                  </div>
+                  <div class="clear"></div>
+                  </section>
+              </div>
+
+            </div>
+            <div class="clear"></div>
+        </div>
+
+        <div class="logo">
+          <a href="https://Eakamm.github.io"><img src="/media/images/gridea.png" alt=""></a>
+        </div>
+        <p class="published border-effect">
+          ©2019 共 17 篇文章
+          <br/>
+          Theme <a href="https://gridea.dev/" target="_blank">「breek」</a> Powered by <a href="https://gridea.dev/" target="_blank">「Gridea」</a>
+        </p>
+        
+        <a href="javascript:void(0)" id="back-to-top" class="epcl-button dark" style="display:none">
+          <i class="fa fa-arrow"></i>
+        </a>
+    </footer>
+    
+    <div class="clear"></div>
+
+        
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min.js"></script>
+<script type="text/javascript" src="https://cdn.staticfile.org/valine/1.3.10/Valine.Pure.min.js"></script>
+<script>
+    new Valine({
+        el: '#comments',
+        appId: 'jxTT3ina1NIYw5eMOamocnW5-gzGzoHsz' ,
+        appKey: 'uUuJe7kNJCFlYliQY6FgscNi',
+        pageSize: 30,
+        placeholder: '既然来了，那就留个痕迹吧~',
+        visitor: false // 阅读量统计
+    })
+</script>
+    
+
+      
+    <script src="https://Eakamm.github.io/media/js/functions-post.js"></script>
+
+    </div>
+    <!-- end: #wrapper -->
+  </body>
+</html>
