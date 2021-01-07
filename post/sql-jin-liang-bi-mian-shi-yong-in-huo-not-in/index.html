@@ -2,7 +2,7 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Pandas基础（一） | 刘志豪的博客</title>
+<title>Sql 尽量避免使用IN或NOT IN | 刘志豪的博客</title>
 <meta name="description" content="温故而知新" />
 <link rel="shortcut icon" href="https://Eakamm.github.io/favicon.ico">
 <link rel="stylesheet" href="https://Eakamm.github.io/styles/main.css">
@@ -15,13 +15,15 @@
 <script src="https://Eakamm.github.io/media/js/jquery.magnific-popup.min.js"></script>
 <script src="https://Eakamm.github.io/media/js/functions.js"></script>
     <meta name="referrer" content="never">
-    <meta name="description" content="Pandas是一个强大的分析结构化数据的工具集；它的使用基础是Numpy（提供高性能的矩阵运算）；用于数据挖掘和数据分析，同时也提供数据清洗功能。
+    <meta name="description" content="
+本文由 简悦 SimpRead 转码， 原文地址 www.cnblogs.com
+WHY？
+====
 
-1、Servies
-pandas创建一个一维数组
-import pandas as pd
-..." />
-    <meta name="keywords" content="Python,Pandas,数据处理" />
+IN 和 NOT IN 是比较常用的关键字，为什么要尽量避免呢？
+1、效率低
+可以参看我之前遇到的一个例子（[小问题笔记（九）] SQ..." />
+    <meta name="keywords" content="Mysql,数据库" />
     <script src="https://Eakamm.github.io/media/js/waterfall.min.js"></script>
     <script src="https://Eakamm.github.io/media/js/prism.min.js"></script>
   </head>
@@ -95,27 +97,25 @@ import pandas as pd
       <main id="single" class="main grid-container fullcover no-sidebar aos-init aos-animate" data-aos="fade">
 
         <div class="center content">
-          <div class="featured-image cover" style="background-image: url('https://Eakamm.github.io/post-images/pandas-ji-chu-yi.jpg');">
+          <div class="featured-image cover" style="background-image: url('https://Eakamm.github.io/post-images/sql-jin-liang-bi-mian-shi-yong-in-huo-not-in.png');">
             <div class="meta top"> 
-              <time class="meta-info" style="float:left;" datetime="2020-09-25"><i class="fa fa-calendar"></i><span class="lately">3 个月前</span></time>
+              <time class="meta-info" style="float:left;" datetime="2021-01-07"><i class="fa fa-calendar"></i><span class="lately">6 分钟前</span></time>
               
-              <a href="https://Eakamm.github.io/post/pandas-ji-chu-yi/#comments" class="comments meta-info" title="">
-                <i class="fa fa-comment remixicon"></i><span class="comment-count valine-comment-count" data-xid="/pandas-ji-chu-yi/"> </span>
+              <a href="https://Eakamm.github.io/post/sql-jin-liang-bi-mian-shi-yong-in-huo-not-in/#comments" class="comments meta-info" title="">
+                <i class="fa fa-comment remixicon"></i><span class="comment-count valine-comment-count" data-xid="/sql-jin-liang-bi-mian-shi-yong-in-huo-not-in/"> </span>
               </a>
-              <span id="/pandas-ji-chu-yi/" class="leancloud_visitors views-counter meta-info" title=""><i class="fa fa-leancloud remixicon"></i><span class="leancloud-visitors-count"></span></span>
+              <span id="/sql-jin-liang-bi-mian-shi-yong-in-huo-not-in/" class="leancloud_visitors views-counter meta-info" title=""><i class="fa fa-leancloud remixicon"></i><span class="leancloud-visitors-count"></span></span>
               
             </div>
             <div class="info">
               <div class="tags ">
                 
-                      <a href="https://Eakamm.github.io/tag/aYAE_85kY/" class="ctag ctag-0 ctag-aYAE_85kY" aria-label="">Python</a>
+                      <a href="https://Eakamm.github.io/tag/xmFdSMSrZ/" class="ctag ctag-0 ctag-xmFdSMSrZ" aria-label="">Mysql</a>
                     
-                      <a href="https://Eakamm.github.io/tag/eVLL_p5ATD/" class="ctag ctag-1 ctag-eVLL_p5ATD" aria-label="">Pandas</a>
-                    
-                      <a href="https://Eakamm.github.io/tag/m13UWVHSwx/" class="ctag ctag-2 ctag-m13UWVHSwx" aria-label="">数据处理</a>
+                      <a href="https://Eakamm.github.io/tag/DuyR84tOfM/" class="ctag ctag-1 ctag-DuyR84tOfM" aria-label="">数据库</a>
                     
               </div>
-              <h1 class="title ularge white bold">Pandas基础（一）</h1>
+              <h1 class="title ularge white bold">Sql 尽量避免使用IN或NOT IN</h1>
             </div>
           </div>
         </div>  
@@ -125,203 +125,66 @@ import pandas as pd
             <article class="main-article post">
               <section class="post-content">
                 <div class="text">
-                  <p>Pandas是一个强大的分析结构化数据的工具集；它的使用基础是Numpy（提供高性能的矩阵运算）；用于数据挖掘和数据分析，同时也提供数据清洗功能。</p>
-<!-- more -->
-<h2 id="1-servies">1、Servies</h2>
-<p>pandas创建一个一维数组</p>
-<pre><code class="language-python{cmd}">import pandas as pd
-import numpy as np
+                  <blockquote>
+<p>本文由 <a href="http://ksria.com/simpread/">简悦 SimpRead</a> 转码， 原文地址 <a href="https://www.cnblogs.com/totian/p/7597300.html">www.cnblogs.com</a><br>
+WHY？<br>
+====</p>
+</blockquote>
+<p>IN 和 NOT IN 是比较常用的关键字，为什么要尽量避免呢？</p>
+<p><strong>1、效率低</strong></p>
+<p>可以参看我之前遇到的一个例子（<a href="http://www.cnblogs.com/hydor/p/4288739.html">[小问题笔记（九）] SQL 语句 Not IN 效率低，用 NOT EXISTS 试试</a>）</p>
+<p><strong>2、容易出现问题，或查询结果有误</strong> （不能更严重的缺点）</p>
+<p>以 IN 为例。建两个表：test1 和 test2</p>
+<pre><code class="language-mysql">create table test1 (id1 int)
+create table test2 (id2 int)
 
-s = pd.Series(['a', 'b', 'c'], index=[1, 2, 3])
-
-# 获取索引序列
-print(s.index)
-
-# 根据索引查找数据
-print(s[1])
-s[1] = &quot;e&quot;
-print(s[1])
-
-print('----------------------------------')
-# 多个索引或值查找
-s2 = pd.Series([1, 2, 6], index=['a', 'b', 'c'])
-# 自定义的索引('a', 'b', 'c')
-print(s2[['a', 'b']])
-# 第n行(0,1,2)
-print(s2[[1, 2]])
-# 值小于等于n
-print(s2[s2 &lt;= 3])
-
-print('----------------------------------')
-# in判断索引是否存在
-print(1 in s)
-
+insert into test1 (id1) values (1),(2),(3)
+insert into test2 (id2) values (1),(2)
 </code></pre>
-<p>通过<code>.index</code>改变索引</p>
-<pre><code class="language-python"># Series的索引可以通过按位置赋值的方式进行改变
-s.index = ['a','b','c']
+<p><strong>我想要查询，在 test2 中存在的  test1 中的 id</strong> 。使用 IN 的一般写法是：</p>
+<pre><code class="language-mysql">select id1 from test1 
+where id1 in (select id2 from test2)
 </code></pre>
-<p>Python切片中是不包含尾部的，Series的自定义字符串索引的切片与之不同.</p>
-<pre><code class="language-python">import pandas as pd
-import numpy as np
-
-# 字符串索引
-s = pd.Series([1,2,3], index=['a', 'b', 'c'])
-# 数字索引
-s1 = pd.Series([1,2,3], index=[1, 2, 3])
-s2 = [1,2,3]
-print(s2[0:1])
-# 根据行数做切片与普通数组的切片相同
-print(s1[1:2])
-# 自定义字符串索引包含尾部
-print(s['a':'b'])
-
-# 可以使用切片更改数据
-s['a':'b'] = 4
-print(s)
+<p>结果是：<img src="https://images2015.cnblogs.com/blog/599583/201604/599583-20160414142918832-546624557.jpg" alt="" loading="lazy">  OK 木有问题！</p>
+<p>但是如果我一时手滑，写成了：</p>
+<pre><code class="language-mysql">select id1 from test1 
+where id1 in (select id1 from test2)
 </code></pre>
-<h2 id="2-dataframe">2、DataFrame</h2>
-<h3 id="21-创建">2.1、创建</h3>
-<p>最常用的方式是利用包含等长度列表或NumPy数组的字典来形成DataFrame(某一列没有赋值，会出现缺省值NaN)</p>
-<pre><code class="language-python">import pandas as pd
-
-data = {'state': ['Ohio', 'Ohio', 'Ohio', 'Nevada', 'Nevada', 'Nevada'],
-        'year': [2000, 2001, 2002, 2001, 2002, 2003],
-        'pop': [1.5, 1.7, 3.6, 2.4, 2.9, 3.2]}
-frame = pd.DataFrame(data)
-
-print(frame)
+<p>不小心把 id2 写成 id1 了 ，会怎么样呢?</p>
+<p>结果是：<img src="https://images2015.cnblogs.com/blog/599583/201604/599583-20160414143058535-1581017335.jpg" alt="" loading="lazy"> <br>
+EXCUSE ME！ 为什么不报错？</p>
+<p>单独查询 select id1 from test2 是一定会报错: 消息 207，级别 16，状态 1，第 11 行 列名'id1' 无效。</p>
+<p>然而使用了 IN 的子查询就是这么敷衍，直接查出 1 2 3</p>
+<p>这仅仅是容易出错的情况，自己不写错还没啥事儿，下面来看一下 NOT IN 直接查出错误结果的情况：</p>
+<p>给 test2 插入一个空值：</p>
+<pre><code class="language-mysql">insert into test2 (id2) values (NULL)
 </code></pre>
-<p>设置列名与行名，<code>debt</code>列为空，为NaN</p>
-<pre><code class="language-python">&gt;&gt;&gt; frame2 = pd.DataFrame(data, columns=['year', 'state', 'pop', 'debt'],
-...                       index=['one', 'two', 'three', 'four',
-...                              'five', 'six'])
-&gt;&gt;&gt; frame2
-one    2000    Ohio  1.5  NaN
-two    2001    Ohio  1.7  NaN
-three  2002    Ohio  3.6  NaN
-four   2001  Nevada  2.4  NaN
-five   2002  Nevada  2.9  NaN
-six    2003  Nevada  3.2  NaN
+<p><strong>我想要查询，在 test2 中不存在的  test1 中的 id 。</strong></p>
+<pre><code class="language-mysql">select id1 from test1 
+where id1 not in (select id2 from test2)
 </code></pre>
-<h3 id="22-查找">2.2、查找</h3>
-<p><code>loc[]</code>获取某一行的数据</p>
-<pre><code class="language-python">import pandas as pd
+<p>结果是：<img src="https://images2015.cnblogs.com/blog/599583/201604/599583-20160414144719566-1529158930.jpg" alt="" loading="lazy"> 空白！ 显然这个结果不是我们想要的。我们想要 3。为什么会这样呢？</p>
+<p>原因是：NULL 不等于任何非空的值啊！如果 id2 只有 1 和 2， 那么 3&lt;&gt;1 且 3&lt;&gt;2 所以 3 输出了，但是 id2 包含空值，那么 3 也不等于 NULL 所以它不会输出。</p>
+<p>（跑题一句：建表的时候最好不要允许含空值，否则问题多多。）</p>
+<h1 id="how">HOW？</h1>
+<p><strong>1、用 EXISTS 或 NOT EXISTS 代替</strong></p>
+<pre><code class="language-mysql">select *  from test1 
+   where EXISTS (select * from test2  where id2 = id1 )
 
-data = {'state': ['Ohio', 'Ohio', 'Ohio', 'Nevada', 'Nevada', 'Nevada'],
-        'year': [2000, 2001, 2002, 2001, 2002, 2003],
-        'pop': [1.5, 1.7, 3.6, 2.4, 2.9, 3.2]}
-frame = pd.DataFrame(data)
-
-# 查找某一行
-print(frame)
-print(frame.loc[1])
-
-# 多个索引查找
-
-
-# 创建新的一列
-frame['test'] = frame.state == 'Ohio'
-print(frame)
-# 删除一列
-del frame['test']
-print(frame.columns)
+select *  FROM test1  
+ where NOT EXISTS (select * from test2  where id2 = id1 )
 </code></pre>
-<h3 id="23-根据布尔值切片">2.3、根据布尔值切片</h3>
-<p>可以根据一个布尔值数组选择数据，也可以比较所有的元素，对符合要求的元素执行操作。</p>
-<pre><code class="language-python{cmd}">import pandas as pd
-import numpy as np
-frame = pd.DataFrame(np.arange(20).reshape(4, 5),
-                      index=list('abcd'),
-                      columns=list('abcde'))
-# frame &lt; 5
-print(frame &lt; 5)
-# 将小于5的元素改为0
-frame[frame &lt; 5] = 0
-print(frame)
-# 根据列的比较结果显示数据
-print(frame[frame['b'] &gt; 10])
-
-print(frame)
+<p><strong>2、用 JOIN 代替</strong></p>
+<pre><code class="language-mysql">select id1 from test1 
+   INNER JOIN test2 ON id2 = id1 
+   
+ select id1 from test1 
+   LEFT JOIN test2 ON id2 = id1 
+   where id2 IS NULL
 </code></pre>
-<h3 id="24-loc与iloc索引">2.4、loc与iloc索引</h3>
-<p>标签选出单行多列的数据可以使用<code>loc</code>（也就是自定义的索引）</p>
-<pre><code class="language-python">import numpy as np
-import pandas as pd
-
-frame = pd.DataFrame(np.arange(20).reshape(4, 5),
-                      index=list('abcd'),
-                      columns=list('abcde'))
-# 获取某一行
-print(frame.loc['a'])
-# 获取某一行的n列数据
-print(frame.loc['a',['a', 'b']])
-# 
-print(frame.loc[['a','b'],['a', 'b']])
-</code></pre>
-<p>整数标签<code>iloc</code>进行类似的数据选择</p>
-<pre><code class="language-python">import numpy as np
-import pandas as pd
-
-frame = pd.DataFrame(np.arange(20).reshape(4, 5),
-                      index=list('abcd'),
-                      columns=list('abcde'))
-print(frame.iloc[1])
-
-print(frame.iloc[1,[1,2]])
-
-print(frame.iloc[[1,2],[1,2]])
-</code></pre>
-<h3 id="25-整数索引问题">2.5、整数索引问题</h3>
-<pre><code class="language-python">import numpy as np
-import pandas as pd
-
-
-</code></pre>
-<p>当使用字符串的索引就不会对s[-1]产生歧义</p>
-<p>所以你有一个包含整数的轴索引，数据选择时请始终使用标签索引。</p>
-<h3 id="26-广播机制">2.6、广播机制</h3>
-<h3 id="27-函数">2.7、函数</h3>
-<p>使用<code>apply</code>可以取出每一行或每一列的元素。<code>axis = 'columns'</code>取出每一行，以行为索引。默认为列。<br>
-可以使用函数对数据进行更复杂的操作</p>
-<pre><code class="language-python">import numpy as np
-import pandas as pd
-
-df = pd.DataFrame(np.arange(20).reshape(4, 5),
-                  columns=list('abcde'))
-
-# 求每组数据的最大最小值的差
-
-
-def f(x): return x.max()-x.min()
-
-
-# 默认为取出每列
-series = df.apply(f)
-print(series)
-
-# 取出每行
-series = df.apply(f, axis=&quot;columns&quot;)
-print(series)
-</code></pre>
-<p>使用<code>applymap</code>取出每个元素</p>
-<pre><code class="language-python">import numpy as np
-import pandas as pd
-
-df = pd.DataFrame(np.arange(20).reshape(4, 5),
-                  columns=list('abcde'))
-# 处理所有的元素
-# 求平方
-def f2(x): return x**2
-
-
-data_frame = df.applymap(f2)
-print(data_frame)
-
-# 处理某一行
-data_frame = df.loc[1].map(f2)
-print(data_frame)
-</code></pre>
+<p>妥妥的没有问题了！</p>
+<p>PS：那我们死活都不能用 IN 和 NOT IN 了么？并没有，一位大神曾经说过，如果是<strong>确定且有限的集合</strong>时，可以使用。如 IN （0，1，2）。</p>
+<p>转发自：http://www.cnblogs.com/hydor/p/5391556.html</p>
 
                 </div>
                 <div class="clear"></div>
@@ -331,26 +194,13 @@ print(data_frame)
 
             <section class="related section">
               
-              <article class="prev grid-50 tablet-grid-50 grid-parent">
-                <div class="thumb cover lazy loaded" style="background-image: url('https://Eakamm.github.io/post-images/js-zhong-tiao-chu-foreach-xun-huan.jpg');"></div>
-                 <a href="https://Eakamm.github.io/post/js-zhong-tiao-chu-foreach-xun-huan/" class="full-link"></a>
-                 <div class="info">
-                  <time datetime="2020-09-27">2020-09-27</time>
-                  <h4 class="title white no-margin">js中跳出forEach循环</h4>
-                </div>
-                 <span class="epcl-button red">
-                  <img src="https://Eakamm.github.io/media/images/left-arrow.svg" width="15" alt="Left Arrow">
-                </span>
-                <div class="overlay"></div>
-              </article>
-              
               
               <article class="next grid-50 tablet-grid-50 grid-parent">
-                <div class="thumb cover lazy loaded" style="background-image: url('https://Eakamm.github.io/post-images/chang-yong-shu-zi-zheng-ze-biao-da-shi.jpg');"></div>
-                 <a href="https://Eakamm.github.io/post/chang-yong-shu-zi-zheng-ze-biao-da-shi/" class="full-link"></a>
+                <div class="thumb cover lazy loaded" style="background-image: url('https://Eakamm.github.io/media/images/gridea.jpg');"></div>
+                 <a href="https://Eakamm.github.io/post/sql-bian-xie-ji-qiao/" class="full-link"></a>
                  <div class="info">
-                  <time datetime="2020-09-11">2020-09-11</time>
-                  <h4 class="title white no-margin">常用数字正则表达式</h4>
+                  <time datetime="2020-11-04">2020-11-04</time>
+                  <h4 class="title white no-margin">SQL编写技巧</h4>
                 </div>
                  <span class="epcl-button red">
                   <img src="https://Eakamm.github.io/media/images/right-arrow.svg" width="15" alt="Left Arrow">
