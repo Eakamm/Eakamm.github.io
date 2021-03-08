@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://Eakamm.github.io</id>
     <title>刘志豪的博客</title>
-    <updated>2021-03-05T06:40:18.533Z</updated>
+    <updated>2021-03-08T07:12:19.452Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://Eakamm.github.io"/>
     <link rel="self" href="https://Eakamm.github.io/atom.xml"/>
@@ -10,6 +10,185 @@
     <logo>https://Eakamm.github.io/images/avatar.png</logo>
     <icon>https://Eakamm.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, 刘志豪的博客</rights>
+    <entry>
+        <title type="html"><![CDATA[Mysql常用时间查询]]></title>
+        <id>https://Eakamm.github.io/post/mysql-chang-yong-shi-jian-cha-xun/</id>
+        <link href="https://Eakamm.github.io/post/mysql-chang-yong-shi-jian-cha-xun/">
+        </link>
+        <updated>2021-03-08T07:11:01.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="时间查询">时间查询</h1>
+<h2 id="1-时间段查询">1、时间段查询</h2>
+<pre><code class="language-mysql">-- 今天  
+select fullName,addedTime from t_user where to_days(addedTime) &lt;= to_days(now()); 
+-- 昨天  
+select fullName,addedTime from t_user where to_days(NOW()) - TO_DAYS(addedTime) &lt;= 1;  
+-- 近7天  
+select fullName,addedTime from t_user where date_sub(CURDATE(),INTERVAL 7 DAY) &lt;= DATE(addedTime);  
+-- 近30天  
+SELECT fullName,addedTime FROM t_user where DATE_SUB(CURDATE(), INTERVAL 30 DAY) &lt;= date(addedTime);
+-- 本月  
+SELECT fullName,addedTime FROM t_user WHERE DATE_FORMAT( addedTime, '%Y%m' ) = DATE_FORMAT( CURDATE() , '%Y%m' );
+-- 上一月  
+SELECT fullName,addedTime FROM t_user WHERE PERIOD_DIFF( date_format( now( ) , '%Y%m' ) , date_format( addedTime, '%Y%m' ) ) =1; 
+-- 查询本季度数据  
+select fullName,addedTime FROM t_user where QUARTER(addedTime)=QUARTER(now()); 
+-- 查询上季度数据  
+select fullName,addedTime FROM t_user where QUARTER(addedTime)=QUARTER(DATE_SUB(now(),interval 1 QUARTER));  
+-- 查询本年数据  
+select fullName,addedTime FROM t_user where YEAR(addedTime)=YEAR(NOW());  
+-- 查询上年数据  
+select fullName,addedTime FROM t_user where year(addedTime)=year(date_sub(now(),interval 1 year));  
+-- 查询距离当前现在6个月的数据  
+select fullName,addedTime FROM t_user where addedTime between date_sub(now(),interval 6 month) and now();  
+ 
+-- 查询当前这周的数据  
+SELECT fullName,addedTime FROM t_user WHERE YEARWEEK(date_format(addedTime,'%Y-%m-%d')) = YEARWEEK(now());  
+-- 查询上周的数据  
+SELECT fullName,addedTime FROM t_user WHERE YEARWEEK(date_format(addedTime,'%Y-%m-%d')) = YEARWEEK(now())-1;  
+-- 查询上个月的数据   
+select fullName,addedTime FROM t_user where date_format(addedTime,'%Y-%m')=date_format(DATE_SUB(curdate(), INTERVAL 1 MONTH),'%Y-%m'); 
+-- 查询当前月份的数据
+select fullName,addedTime FROM t_user where DATE_FORMAT(addedTime,'%Y%m') = DATE_FORMAT(CURDATE(),'%Y%m');
+select fullName,addedTime FROM t_user where date_format(addedTime,'%Y-%m')=date_format(now(),'%Y-%m'); 
+ 
+-- 查询指定时间段的数据
+select fullName,addedTime FROM t_user where addedTime between  '2017-1-1 00:00:00'  and '2018-1-1 00:00:00';   
+select fullName,addedTime FROM t_user where addedTime &gt;='2017-1-1 00:00:00'  and addedTime &lt; '2018-1-1 00:00:00';
+</code></pre>
+<h2 id="2-时间分组查询">2、时间分组查询</h2>
+<h3 id="1-查询方式">1、查询方式</h3>
+<pre><code class="language-mysql">&lt;!-- 按日查询 --&gt;  
+SELECT DATE_FORMAT(created_date,'%Y-%m-%d') as time,sum(money) money FROM o_finance_detail where org_id = 1000  GROUP BY  time  
+&lt;!-- 按月查询 --&gt;  
+SELECT DATE_FORMAT(created_date,'%Y-%m') as time,sum(money)  money FROM o_finance_detail where org_id = 1000  GROUP BY  time  
+&lt;!-- 按年查询 --&gt;  
+SELECT DATE_FORMAT(created_date,'%Y') as time,sum(money)  money FROM o_finance_detail where org_id = 1000  GROUP BY  time   
+&lt;!-- 按周查询 --&gt;  
+SELECT DATE_FORMAT(created_date,'%Y-%u') as time,sum(money)  money FROM o_finance_detail where org_id = 1000  GROUP BY  time
+</code></pre>
+<h3 id="2-时间格式化规则">2、时间格式化规则</h3>
+<p>DATE_FORMAT(date,format)<br>
+根据format字符串格式化date值。下列修饰符可以被用在format字符串中：</p>
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>%M</td>
+<td>月名字(January……December)</td>
+</tr>
+<tr>
+<td>%W</td>
+<td>星期名字(Sunday……Saturday)</td>
+</tr>
+<tr>
+<td>%D</td>
+<td>有英语前缀的月份的日期(1st, 2nd, 3rd, 等等。）</td>
+</tr>
+<tr>
+<td>%Y</td>
+<td>年, 数字, 4 位</td>
+</tr>
+<tr>
+<td>%y</td>
+<td>年, 数字, 2 位</td>
+</tr>
+<tr>
+<td>%a</td>
+<td>缩写的星期名字(Sun……Sat)</td>
+</tr>
+<tr>
+<td>%d</td>
+<td>月份中的天数, 数字(00……31)</td>
+</tr>
+<tr>
+<td>%e</td>
+<td>月份中的天数, 数字(0……31)</td>
+</tr>
+<tr>
+<td>%m</td>
+<td>月, 数字(01……12)</td>
+</tr>
+<tr>
+<td>%c</td>
+<td>月, 数字(1……12)</td>
+</tr>
+<tr>
+<td>%b</td>
+<td>缩写的月份名字(Jan……Dec)</td>
+</tr>
+<tr>
+<td>%j</td>
+<td>一年中的天数(001……366)</td>
+</tr>
+<tr>
+<td>%H</td>
+<td>小时(00……23)</td>
+</tr>
+<tr>
+<td>%k</td>
+<td>小时(0……23)</td>
+</tr>
+<tr>
+<td>%h</td>
+<td>小时(01……12)</td>
+</tr>
+<tr>
+<td>%I</td>
+<td>小时(01……12)</td>
+</tr>
+<tr>
+<td>%l</td>
+<td>小时(1……12)</td>
+</tr>
+<tr>
+<td>%i</td>
+<td>分钟, 数字(00……59)</td>
+</tr>
+<tr>
+<td>%r</td>
+<td>时间,12 小时(hh:mm:ss [AP]M)</td>
+</tr>
+<tr>
+<td>%T</td>
+<td>时间,24 小时(hh:mm:ss)</td>
+</tr>
+<tr>
+<td>%S</td>
+<td>秒(00……59)</td>
+</tr>
+<tr>
+<td>%s</td>
+<td>秒(00……59)</td>
+</tr>
+<tr>
+<td>%p</td>
+<td>AM或PM</td>
+</tr>
+<tr>
+<td>%w</td>
+<td>一个星期中的天数(0=Sunday ……6=Saturday ）</td>
+</tr>
+<tr>
+<td>%U</td>
+<td>星期(0……52), 这里星期天是星期的第一天</td>
+</tr>
+<tr>
+<td>%u</td>
+<td>星期(0……52), 这里星期一是星期的第一天</td>
+</tr>
+<tr>
+<td>%%</td>
+<td>一个文字“%”。</td>
+</tr>
+</tbody>
+</table>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[XML中不能出现<,导致Mybatis的Mapper无法使用sql的<]]></title>
         <id>https://Eakamm.github.io/post/xml-zhong-bu-neng-chu-xian-lessdao-zhi-mybatis-de-mapper-wu-fa-shi-yong-sql-de-less/</id>
@@ -227,7 +406,9 @@ public class VoteDetailRelVo {
 <p><a href="https://c.lanmit.com/bianchengkaifa/Java/59964.html">本文地址：</a><br>
 &gt; 本文由 [简悦 SimpRead](http://ksria.com/simpread/) 转码， 原文地址 [c.lanmit.com](https://c.lanmit.com/bianchengkaifa/Java/59964.html)</p>
 <p>本文将为您描述在 java 中进行日期时间比较的 4 种方法, 教程操作步骤:</p>
-<p>1. Date.compareTo（）</p>
+<ol>
+<li>Date.compareTo（）</li>
+</ol>
 <p><code>java.util.Date</code>提供了在 Java 中比较两个日期的经典方法 compareTo（）。</p>
 <p>如果两个日期相等，则返回值为 0。 如果 Date 在 date 参数之后，则返回值大于 0。 如果 Date 在 date 参数之前，则返回值小于 0。</p>
 <pre><code>@Test
@@ -255,7 +436,9 @@ void testDateCompare() throws ParseException {
 date2 : 2019-01-31
 Date1 时间在 Date2 之前
 </code></pre>
-<p>2. Date.before（），Date.after（）和 Date.equals（）</p>
+<ol start="2">
+<li>Date.before（），Date.after（）和 Date.equals（）</li>
+</ol>
 <p>一种语义上比较友好的方法来比较两个<code>java.util.Date</code></p>
 <pre><code>@Test
 void testDateCompare2() throws ParseException {
@@ -284,7 +467,9 @@ void testDateCompare2() throws ParseException {
 date2 : 2019-01-31
 Date1 时间在 Date2 之前
 </code></pre>
-<p>3. Calender.before（），Calender.after（）和 Calender.equals（）</p>
+<ol start="3">
+<li>Calender.before（），Calender.after（）和 Calender.equals（）</li>
+</ol>
 <p>使用<code>java.util.Calendar</code>比较两个 Date 日期</p>
 <pre><code>@Test
 void testDateCompare3() throws ParseException {
@@ -632,63 +817,6 @@ public class MyScheduler2 {
 ]]></summary>
         <content type="html"><![CDATA[<p>SpringBoot使用GetMapping时以对象作为参数，对象的属性不可以_开头，在网上也没有找到解释。</p>
 <!-- more -->
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[js中跳出forEach循环]]></title>
-        <id>https://Eakamm.github.io/post/js-zhong-tiao-chu-foreach-xun-huan/</id>
-        <link href="https://Eakamm.github.io/post/js-zhong-tiao-chu-foreach-xun-huan/">
-        </link>
-        <updated>2020-09-27T07:08:57.000Z</updated>
-        <summary type="html"><![CDATA[<p>在使用forEach中需要在处理后跳出循环，return和break都无法跳出。经过查找资料后，我找到了两种方法可以实现跳出循环。当然可以使用for循环直接解决🌸🐔</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>在使用forEach中需要在处理后跳出循环，return和break都无法跳出。经过查找资料后，我找到了两种方法可以实现跳出循环。当然可以使用for循环直接解决🌸🐔</p>
-<!-- more -->
-<h2 id="1-使用trycatch捕获异常实现">1、使用try···catch捕获异常实现</h2>
-<pre><code class="language-javascript">try{
-var array = [&quot;first&quot;,&quot;second&quot;,&quot;third&quot;,&quot;fourth&quot;];
-array.forEach(function(item,index){
-	if(item == &quot;third&quot;){
-		var a = aaaa;// first second 后就报错，就跳出循环了
-		throw new Error(&quot;ending&quot;);//报错，就跳出循环
-	}else{
-		log(item);
-	}
-})
-}catch(e){
-	if(e.message == &quot;ending&quot;){
-		log(&quot;结束了&quot;) ;
-	}else{
-		log(e.message);
-	}
-}
-</code></pre>
-<h2 id="2-使用arrsome或者arrevery替代">2、使用arr.some()或者arr.every()替代</h2>
-<p>some()当内部return true时跳出整个循环。<br>
-some() 方法测试是否至少有一个元素通过由提供的函数实现的测试。</p>
-<pre><code class="language-javascript">var arr = [1,2,3,4,5];
-var num = 3;
-arr.some(function(v){
-	if(v == num) {
-        // 返回true代表测试通过，结束循环
-		return true;
-	}
-console.log(v);
-});
-</code></pre>
-<p>every()当内部return false时跳出整个循环<br>
-every() 方法测试数组的所有元素是否都通过了指定函数的测试。</p>
-<pre><code class="language-javascript">var arr = [1,2,3,4,5];
-var num = 3;
-arr.every(function(v){
-	if(v == num) {
-		return false;
-	}else{
-		console.log(v);
-		return true;
-	}
-});
-</code></pre>
 ]]></content>
     </entry>
 </feed>
