@@ -2,7 +2,7 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>ES6语法箭头函数 | 刘志豪的博客</title>
+<title>刘志豪的博客</title>
 <meta name="description" content="温故而知新" />
 <link rel="shortcut icon" href="https://Eakamm.github.io/favicon.ico">
 <link rel="stylesheet" href="https://Eakamm.github.io/styles/main.css">
@@ -14,27 +14,11 @@
 <script src="https://Eakamm.github.io/media/js/view-image.min.js"></script>
 <script src="https://Eakamm.github.io/media/js/jquery.magnific-popup.min.js"></script>
 <script src="https://Eakamm.github.io/media/js/functions.js"></script>
-    <meta name="referrer" content="never">
-    <meta name="description" content="优雅的函数式编程
-
-1、之前的函数定义方式
-1、Function
-let a = function(){  
-}
-
-2、对象字面量添加函数
-let b = {
-  b: function(){},
-  b2(){}
-}
-
-2、箭头函数
-1、..." />
-    <meta name="keywords" content="JavaScript,ES6" />
-    <script src="https://Eakamm.github.io/media/js/waterfall.min.js"></script>
-    <script src="https://Eakamm.github.io/media/js/prism.min.js"></script>
   </head>
   <body>
+    <!-- start: #wrapper -->
+    <div class="wrapper">
+      
             <header id="header" class="grid-container">
         <!-- start: .menu-wrapper -->
         <div class="menu-mobile"> 
@@ -101,160 +85,123 @@ let b = {
         </div>
       </div>
 
-      <main id="single" class="main grid-container fullcover no-sidebar aos-init aos-animate" data-aos="fade">
-
-        <div class="center content">
-          <div class="featured-image cover" style="background-image: url('https://Eakamm.github.io/post-images/es6-yu-fa-jian-tou-han-shu.jpg');">
-            <div class="meta top"> 
-              <time class="meta-info" style="float:left;" datetime="2020-09-08"><i class="fa fa-calendar"></i><span class="lately">7 个月前</span></time>
-              
-              <a href="https://Eakamm.github.io/post/es6-yu-fa-jian-tou-han-shu/#comments" class="comments meta-info" title="">
-                <i class="fa fa-comment remixicon"></i><span class="comment-count valine-comment-count" data-xid="/es6-yu-fa-jian-tou-han-shu/"> </span>
-              </a>
-              <span id="/es6-yu-fa-jian-tou-han-shu/" class="leancloud_visitors views-counter meta-info" title=""><i class="fa fa-leancloud remixicon"></i><span class="leancloud-visitors-count"></span></span>
-              
-            </div>
-            <div class="info">
-              <div class="tags ">
+      <main id="home" class="main">
+        <div class="grid-container module-wrapper enable-masonry aos-init aos-animate" data-aos="fade-up">
+        <div class="row">
+          <div class="content-wrapper grid-posts content">
                 
-                      <a href="https://Eakamm.github.io/tag/tjl78Jr5n/" class="ctag ctag-0 ctag-tjl78Jr5n" aria-label="">JavaScript</a>
+            <!-- start: .articles -->
+            
+              
+              
+              <div class="articles columns-3">
+                
+                <article class="bgstyle grid-33 tablet-grid-50 mobile-grid-100 np-mobile post type-post status-publish format-standard has-post-thumbnail hentry" style="">
+                  <div class="article-wrapper  cover" style="background-image: url('https://pic3.zhimg.com/v2-fd539701ffa266892c08a38a967fc493_r.jpg?source=1940ef5c');">
+                  <header>
                     
-                      <a href="https://Eakamm.github.io/tag/Lo0Xud3TPi/" class="ctag ctag-1 ctag-Lo0Xud3TPi" aria-label="">ES6</a>
+                      <div class="tags absolute">
+                        <a href="https://Eakamm.github.io/tag/VVAqyIHur/" class="ctag ctag-0 ctag-VVAqyIHur">坑</a>
+                      </div>
                     
-              </div>
-              <h1 class="title ularge white bold">ES6语法箭头函数</h1>
-            </div>
-          </div>
-        </div>  
-
-        <div class="epcl-page-wrapper">
-          <div class="left-content grid-70 np-mobile">
-            <article class="main-article post">
-              <section class="post-content">
-                <div class="text">
-                  <p>优雅的函数式编程</p>
-<!-- more -->
-<h2 id="1-之前的函数定义方式">1、之前的函数定义方式</h2>
-<pre><code class="language-js">1、Function
-let a = function(){  
-}
-</code></pre>
-<p>2、对象字面量添加函数</p>
-<pre><code class="language-js">let b = {
-  b: function(){},
-  b2(){}
-}
-</code></pre>
-<h2 id="2-箭头函数">2、箭头函数</h2>
-<h3 id="1-放入一个参数">1、放入一个参数</h3>
-<pre><code class="language-javascript">let a = num1 =&gt; {
-    return ++num1
-}
-</code></pre>
-<h3 id="2-放入两个参数">2、放入两个参数</h3>
-<pre><code class="language-js">let a = （num1, num2） =&gt; {
-    return num2+num1
-}
-</code></pre>
-<h3 id="3-函数中只有一行代码">3、函数中只有一行代码</h3>
-<p>当函数中只有一行代码的时候，无论是return还是普通代码，均可以使用增强写法。</p>
-<pre><code class="language-js">// 原来
-let a = (c) =&gt; {
-  return ++c
-}
-
-// 增强写法
-let a = c =&gt; ++c
-</code></pre>
-<h2 id="2-this">2、this</h2>
-<p>箭头函数的作用域是从当前位置向外一层一层找，直到找到一个this</p>
-<pre><code class="language-js">const aa = {
-  bb(){
-    setTimeout(() =&gt; {
-      console.log(this)
-    })
-  },
-  cc(){
-    setTimeout(function(){
-      console.log(this)
-    })
-  }
-}
-
-aa.bb()
-aa.cc()
-</code></pre>
-
+                    <div class="meta">
+                      <time datetime="2020-09-08"><i class="fa fa-calendar"></i><span class="lately">7 个月前</span></time>
+                      <div class="clear"></div>
+                    </div>
+                    <h1 class="title main-title gradient-effect"><a href="https://Eakamm.github.io/post/elementui-de-lessel-colgreaterbiao-qian-wu-fa-shi-yong-dian-ji-shi-jian/">ElementUI的&lt;el-col&gt;标签无法使用点击事件</a></h1>
+                  </header>
+                  <footer class="author-meta">
+                    <a href="" class="author" title="">
+                      <span class="author-image cover" style="background-image: url('https://Eakamm.github.io/images/avatar.png');"></span>
+                      <span class="author-name">刘志豪的博客</span>
+                    </a>
+                    
+                    <a href="https://Eakamm.github.io/post/elementui-de-lessel-colgreaterbiao-qian-wu-fa-shi-yong-dian-ji-shi-jian/#comments" class="comments meta-info alignright" title="">
+                      <span class="comment-count valine-comment-count" data-xid="/elementui-de-lessel-colgreaterbiao-qian-wu-fa-shi-yong-dian-ji-shi-jian/"> </span><i class="fa fa-comment"></i>
+                    </a>
+                    <div id="/elementui-de-lessel-colgreaterbiao-qian-wu-fa-shi-yong-dian-ji-shi-jian/" class="leancloud_visitors views-counter meta-info alignright" title=""><span class="leancloud-visitors-count" style="vertical-align: middle;"></span><i class="fa fa-leancloud"></i></div>
+                    
+                    <div class="clear"></div>
+                  </footer>
+                  <div class="overlay"></div>       
                 </div>
-                <div class="clear"></div>
-              </section>
-            </article>
-            <div class="clear"></div>
-
-            <section class="related section">
-              
-              <article class="prev grid-50 tablet-grid-50 grid-parent">
-                <div class="thumb cover lazy loaded" style="background-image: url('https://Eakamm.github.io/post-images/sha-gua-han-shu-shi-bian-cheng-zhuan-zai.jpg');"></div>
-                 <a href="https://Eakamm.github.io/post/sha-gua-han-shu-shi-bian-cheng-zhuan-zai/" class="full-link"></a>
-                 <div class="info">
-                  <time datetime="2020-09-08">2020-09-08</time>
-                  <h4 class="title white no-margin">傻瓜函数式编程（转载）</h4>
-                </div>
-                 <span class="epcl-button red">
-                  <img src="https://Eakamm.github.io/media/images/left-arrow.svg" width="15" alt="Left Arrow">
-                </span>
-                <div class="overlay"></div>
               </article>
+                
               
               
-              <article class="next grid-50 tablet-grid-50 grid-parent">
-                <div class="thumb cover lazy loaded" style="background-image: url('https://tse2-mm.cn.bing.net/th/id/OIP.FcmmZozWIh7h5pjqRVznugHaEV?pid=Api&amp;rs=1');"></div>
-                 <a href="https://Eakamm.github.io/post/mysql-jin-xing-shi-jian-cha-xun-de-yi-xie-chang-yong-sql/" class="full-link"></a>
-                 <div class="info">
-                  <time datetime="2020-09-08">2020-09-08</time>
-                  <h4 class="title white no-margin">Mysql进行时间查询的一些常用sql</h4>
+              
+              
+                
+              <article class="default grid-33 tablet-grid-50 mobile-grid-100 np-mobile post type-post status-publish format-standard has-post-thumbnail hentry">
+                <div class="article-wrapper">
+                  <header>
+                    <div class="post-format-image post-format-wrapper">
+                      <div class="featured-image">
+                        <a href="https://Eakamm.github.io/post/hello-gridea/" class="thumb hover-effect">
+                          <span class="fullimage cover" role="img" aria-label="" style="background-image: url('https://Eakamm.github.io/post-images/hello-gridea.png');"></span>
+                        </a>
+                        
+                        <div class="tags absolute">
+                          <a href="https://Eakamm.github.io/tag/c5epEfQ21/" class="ctag ctag-1 ctag-c5epEfQ21">Gridea</a>
+                        </div>
+                        
+                      </div>
+                    </div>                    
+                    <div class="meta">
+                      <time datetime="2018-12-12"><i class="fa fa-calendar"></i><span class="lately">2 年前</span></time>
+                      <div class="clear"></div>
+                    </div>
+
+                    <h1 class="title main-title gradient-effect"><a href="https://Eakamm.github.io/post/hello-gridea/">Hello Gridea</a></h1>
+                  </header>
+
+                  <div class="post-excerpt">
+                      <p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
+✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
+
+                    <div class="clear"></div>
+                  </div>
+
+                  <footer class="author-meta">
+                    <a href="" class="author" title="">
+                      <span class="author-image cover" style="background-image: url('https://Eakamm.github.io/images/avatar.png');"></span>
+                      <span class="author-name">刘志豪的博客</span>
+                    </a>
+                    
+                    <a href="https://Eakamm.github.io/post/hello-gridea/#comments" class="comments meta-info alignright" title="">
+                      <span class="comment-count valine-comment-count" data-xid="/hello-gridea/"> </span><i class="fa fa-comment"></i>
+                    </a>
+                    <div id="/hello-gridea/" class="leancloud_visitors views-counter meta-info alignright" title=""><span class="leancloud-visitors-count" style="vertical-align: middle;"></span><i class="fa fa-leancloud"></i></div>
+                    
+                    <div class="clear"></div>
+                  </footer>
+                  <div class="border"></div>       
                 </div>
-                 <span class="epcl-button red">
-                  <img src="https://Eakamm.github.io/media/images/right-arrow.svg" width="15" alt="Left Arrow">
-                </span>
-                <div class="overlay"></div>
               </article>
+                
               
-
-                <div class="clear"></div>
-            </section>
-
+              
               <div class="clear"></div>
-              
-            
-              <div id="comments" class="bg-white hosted ">
-                <div class="clear"></div>
-<script>
-jQuery(document).ready(function($){
-    $('.vemoji-btn').text('😀');
-    $("#comments").on('click', 'span.vat',function(){
-        $(this).parent('div.vmeta').next("div.vcontent").after($("div.vwrap"));
-        $('textarea#veditor').focus();
-    })
-    if(window.location.hash){
-        var checkExist = setInterval(function() {
-            if ($(window.location.hash).length) {
-                $('html, body').animate({scrollTop: $(window.location.hash).offset().top-200}, 600);
-                clearInterval(checkExist);
-            }
-        }, 100);
-    }
-})
-</script>
-
-              </div>
-            
-
+              <div class="separator last hide-on-tablet hide-on-mobile"></div>
             </div>
+            <!-- end: .articles -->
+            
+                        <div class="epcl-pagination section">
+              <div class="nav">
+                
+                  <a href="https://Eakamm.github.io/page/2/" class="prev button red">上一页</a>
+                
+                
+              </div>
+            </div>
+
+            
           </div>
+          </div>
+        </div>
       </main>
 
-          <footer id="footer" class="grid-container">
+        <footer id="footer" class="grid-container">
         <div class="widgets row gradient-effect">
             <div class="default-sidebar border-effect">
               <div class="grid-33 tablet-grid-50 mobile-grid-100">
@@ -453,9 +400,6 @@ jQuery(document).ready(function($){
     })
 </script>
     
-
-      
-    <script src="https://Eakamm.github.io/media/js/functions-post.js"></script>
 
     </div>
     <!-- end: #wrapper -->

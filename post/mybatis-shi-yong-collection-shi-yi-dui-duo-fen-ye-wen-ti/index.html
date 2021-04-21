@@ -2,7 +2,7 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>ES6语法箭头函数 | 刘志豪的博客</title>
+<title>Mybatis使用collection时一对多分页问题 | 刘志豪的博客</title>
 <meta name="description" content="温故而知新" />
 <link rel="shortcut icon" href="https://Eakamm.github.io/favicon.ico">
 <link rel="stylesheet" href="https://Eakamm.github.io/styles/main.css">
@@ -15,22 +15,9 @@
 <script src="https://Eakamm.github.io/media/js/jquery.magnific-popup.min.js"></script>
 <script src="https://Eakamm.github.io/media/js/functions.js"></script>
     <meta name="referrer" content="never">
-    <meta name="description" content="优雅的函数式编程
-
-1、之前的函数定义方式
-1、Function
-let a = function(){  
-}
-
-2、对象字面量添加函数
-let b = {
-  b: function(){},
-  b2(){}
-}
-
-2、箭头函数
-1、..." />
-    <meta name="keywords" content="JavaScript,ES6" />
+    <meta name="description" content="&lt;resultMap type=&quot;BaseQuestion&quot; id=&quot;BaseQuestionResult&quot;&gt;
+        &lt;result property=&quot;id&q..." />
+    <meta name="keywords" content="" />
     <script src="https://Eakamm.github.io/media/js/waterfall.min.js"></script>
     <script src="https://Eakamm.github.io/media/js/prism.min.js"></script>
   </head>
@@ -104,25 +91,21 @@ let b = {
       <main id="single" class="main grid-container fullcover no-sidebar aos-init aos-animate" data-aos="fade">
 
         <div class="center content">
-          <div class="featured-image cover" style="background-image: url('https://Eakamm.github.io/post-images/es6-yu-fa-jian-tou-han-shu.jpg');">
+          <div class="featured-image cover" style="background-image: url('/media/images/gridea.jpg');">
             <div class="meta top"> 
-              <time class="meta-info" style="float:left;" datetime="2020-09-08"><i class="fa fa-calendar"></i><span class="lately">7 个月前</span></time>
+              <time class="meta-info" style="float:left;" datetime="2021-04-13"><i class="fa fa-calendar"></i><span class="lately">8 天前</span></time>
               
-              <a href="https://Eakamm.github.io/post/es6-yu-fa-jian-tou-han-shu/#comments" class="comments meta-info" title="">
-                <i class="fa fa-comment remixicon"></i><span class="comment-count valine-comment-count" data-xid="/es6-yu-fa-jian-tou-han-shu/"> </span>
+              <a href="https://Eakamm.github.io/post/mybatis-shi-yong-collection-shi-yi-dui-duo-fen-ye-wen-ti/#comments" class="comments meta-info" title="">
+                <i class="fa fa-comment remixicon"></i><span class="comment-count valine-comment-count" data-xid="/mybatis-shi-yong-collection-shi-yi-dui-duo-fen-ye-wen-ti/"> </span>
               </a>
-              <span id="/es6-yu-fa-jian-tou-han-shu/" class="leancloud_visitors views-counter meta-info" title=""><i class="fa fa-leancloud remixicon"></i><span class="leancloud-visitors-count"></span></span>
+              <span id="/mybatis-shi-yong-collection-shi-yi-dui-duo-fen-ye-wen-ti/" class="leancloud_visitors views-counter meta-info" title=""><i class="fa fa-leancloud remixicon"></i><span class="leancloud-visitors-count"></span></span>
               
             </div>
             <div class="info">
               <div class="tags ">
                 
-                      <a href="https://Eakamm.github.io/tag/tjl78Jr5n/" class="ctag ctag-0 ctag-tjl78Jr5n" aria-label="">JavaScript</a>
-                    
-                      <a href="https://Eakamm.github.io/tag/Lo0Xud3TPi/" class="ctag ctag-1 ctag-Lo0Xud3TPi" aria-label="">ES6</a>
-                    
               </div>
-              <h1 class="title ularge white bold">ES6语法箭头函数</h1>
+              <h1 class="title ularge white bold">Mybatis使用collection时一对多分页问题</h1>
             </div>
           </div>
         </div>  
@@ -132,57 +115,26 @@ let b = {
             <article class="main-article post">
               <section class="post-content">
                 <div class="text">
-                  <p>优雅的函数式编程</p>
-<!-- more -->
-<h2 id="1-之前的函数定义方式">1、之前的函数定义方式</h2>
-<pre><code class="language-js">1、Function
-let a = function(){  
-}
-</code></pre>
-<p>2、对象字面量添加函数</p>
-<pre><code class="language-js">let b = {
-  b: function(){},
-  b2(){}
-}
-</code></pre>
-<h2 id="2-箭头函数">2、箭头函数</h2>
-<h3 id="1-放入一个参数">1、放入一个参数</h3>
-<pre><code class="language-javascript">let a = num1 =&gt; {
-    return ++num1
-}
-</code></pre>
-<h3 id="2-放入两个参数">2、放入两个参数</h3>
-<pre><code class="language-js">let a = （num1, num2） =&gt; {
-    return num2+num1
-}
-</code></pre>
-<h3 id="3-函数中只有一行代码">3、函数中只有一行代码</h3>
-<p>当函数中只有一行代码的时候，无论是return还是普通代码，均可以使用增强写法。</p>
-<pre><code class="language-js">// 原来
-let a = (c) =&gt; {
-  return ++c
-}
-
-// 增强写法
-let a = c =&gt; ++c
-</code></pre>
-<h2 id="2-this">2、this</h2>
-<p>箭头函数的作用域是从当前位置向外一层一层找，直到找到一个this</p>
-<pre><code class="language-js">const aa = {
-  bb(){
-    setTimeout(() =&gt; {
-      console.log(this)
-    })
-  },
-  cc(){
-    setTimeout(function(){
-      console.log(this)
-    })
-  }
-}
-
-aa.bb()
-aa.cc()
+                  <pre><code class="language-xml">&lt;resultMap type=&quot;BaseQuestion&quot; id=&quot;BaseQuestionResult&quot;&gt;
+        &lt;result property=&quot;id&quot;    column=&quot;id&quot;    /&gt;
+        &lt;result property=&quot;typeId&quot;    column=&quot;type_id&quot;    /&gt;
+        &lt;result property=&quot;typeName&quot;    column=&quot;type_name&quot;    /&gt;
+        &lt;result property=&quot;stem&quot;    column=&quot;stem&quot;    /&gt;
+        &lt;result property=&quot;count&quot;    column=&quot;count&quot;    /&gt;
+        &lt;result property=&quot;alloption&quot;    column=&quot;alloption&quot;    /&gt;
+        &lt;result property=&quot;answer&quot;    column=&quot;answer&quot;    /&gt;
+        &lt;result property=&quot;deleted&quot;    column=&quot;question_deleted&quot;    /&gt;
+        &lt;result property=&quot;time&quot;    column=&quot;time&quot;    /&gt;
+        &lt;result property=&quot;uptime&quot;    column=&quot;uptime&quot;    /&gt;
+        &lt;result property=&quot;siteId&quot;    column=&quot;site_id&quot;    /&gt;
+        &lt;collection property=&quot;options&quot; ofType=&quot;StudyQuestionOptions&quot; select=&quot;selectBaseQuestionOptionsList&quot; column=&quot;{questionId=id}&quot;&gt;
+            &lt;result property=&quot;id&quot;    column=&quot;option_id&quot;    /&gt;
+            &lt;result property=&quot;questionId&quot;    column=&quot;question_id&quot;    /&gt;
+            &lt;result property=&quot;value&quot;    column=&quot;value&quot;    /&gt;
+            &lt;result property=&quot;label&quot;    column=&quot;label&quot;    /&gt;
+            &lt;result property=&quot;deleted&quot;    column=&quot;option_deleted&quot;    /&gt;
+        &lt;/collection&gt;
+    &lt;/resultMap&gt;
 </code></pre>
 
                 </div>
@@ -194,11 +146,11 @@ aa.cc()
             <section class="related section">
               
               <article class="prev grid-50 tablet-grid-50 grid-parent">
-                <div class="thumb cover lazy loaded" style="background-image: url('https://Eakamm.github.io/post-images/sha-gua-han-shu-shi-bian-cheng-zhuan-zai.jpg');"></div>
-                 <a href="https://Eakamm.github.io/post/sha-gua-han-shu-shi-bian-cheng-zhuan-zai/" class="full-link"></a>
+                <div class="thumb cover lazy loaded" style="background-image: url('https://Eakamm.github.io/post-images/ding-shi-ren-wu-chang-yong-cron-biao-da-shi.png');"></div>
+                 <a href="https://Eakamm.github.io/post/ding-shi-ren-wu-chang-yong-cron-biao-da-shi/" class="full-link"></a>
                  <div class="info">
-                  <time datetime="2020-09-08">2020-09-08</time>
-                  <h4 class="title white no-margin">傻瓜函数式编程（转载）</h4>
+                  <time datetime="2021-04-21">2021-04-21</time>
+                  <h4 class="title white no-margin">定时任务常用CRON表达式</h4>
                 </div>
                  <span class="epcl-button red">
                   <img src="https://Eakamm.github.io/media/images/left-arrow.svg" width="15" alt="Left Arrow">
@@ -208,11 +160,11 @@ aa.cc()
               
               
               <article class="next grid-50 tablet-grid-50 grid-parent">
-                <div class="thumb cover lazy loaded" style="background-image: url('https://tse2-mm.cn.bing.net/th/id/OIP.FcmmZozWIh7h5pjqRVznugHaEV?pid=Api&amp;rs=1');"></div>
-                 <a href="https://Eakamm.github.io/post/mysql-jin-xing-shi-jian-cha-xun-de-yi-xie-chang-yong-sql/" class="full-link"></a>
+                <div class="thumb cover lazy loaded" style="background-image: url('https://Eakamm.github.io/media/images/xmFdSMSrZ.jpg');"></div>
+                 <a href="https://Eakamm.github.io/post/mysql-chang-yong-shi-jian-cha-xun/" class="full-link"></a>
                  <div class="info">
-                  <time datetime="2020-09-08">2020-09-08</time>
-                  <h4 class="title white no-margin">Mysql进行时间查询的一些常用sql</h4>
+                  <time datetime="2021-03-08">2021-03-08</time>
+                  <h4 class="title white no-margin">Mysql常用时间查询</h4>
                 </div>
                  <span class="epcl-button red">
                   <img src="https://Eakamm.github.io/media/images/right-arrow.svg" width="15" alt="Left Arrow">
