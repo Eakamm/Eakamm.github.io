@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://Eakamm.github.io</id>
     <title>刘志豪的博客</title>
-    <updated>2021-04-30T08:26:22.081Z</updated>
+    <updated>2021-08-31T07:46:30.023Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://Eakamm.github.io"/>
     <link rel="self" href="https://Eakamm.github.io/atom.xml"/>
@@ -10,6 +10,144 @@
     <logo>https://Eakamm.github.io/images/avatar.png</logo>
     <icon>https://Eakamm.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, 刘志豪的博客</rights>
+    <entry>
+        <title type="html"><![CDATA[windows注册系统服务（实现开机自启）]]></title>
+        <id>https://Eakamm.github.io/post/windows-zhu-ce-xi-tong-fu-wu-shi-xian-kai-ji-zi-qi/</id>
+        <link href="https://Eakamm.github.io/post/windows-zhu-ce-xi-tong-fu-wu-shi-xian-kai-ji-zi-qi/">
+        </link>
+        <updated>2021-08-31T07:37:15.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="1-nginx">1、nginx</h1>
+<p>我们借助 Windows Service Wrapper 小工具，将 Nginx 转换为 Windows 服务，在服务中心配置自启动，从而在开机时 windows 自行启动 Nginx 服务。</p>
+<h3 id="1-自启动工具下载">1、自启动工具下载</h3>
+<p>工具下载 URL：<a href="https://github.com/winsw/winsw/releases">https://github.com/winsw/winsw/releases</a></p>
+<p>如下图，为<code>windows32位和64位</code>的工具文件</p>
+<figure data-type="image" tabindex="1"><img src="E:%5CPictures%5CImageBed%5C20210510172312682.png" alt="" loading="lazy"></figure>
+<p>上面 github 需要外网访问比较快，没有外网的同学们，我也给你们下好了，自行下载吧~</p>
+<ul>
+<li>32 位：<a href="https://pan.baidu.com/s/1gofHYQTxDmLhytKyBl928g">WinSW-x86.exe （提取码：0915）</a></li>
+<li>64 位：<a href="https://pan.baidu.com/s/1gofHYQTxDmLhytKyBl928g">WinSW-x64.exe （提取码：0915）</a></li>
+</ul>
+<h3 id="2-自启动工具安装">2、自启动工具安装</h3>
+<ul>
+<li>
+<p><strong>步骤一</strong>：下载后将该工具放入 Nginx 的安装目录下，并且将其<code>重命名为 nginx-service.exe</code> ；</p>
+</li>
+<li>
+<p><strong>步骤二</strong>：在 nginx 安装目录下新建服务日志文件夹 server-logs 文件夹, 用来存放 nginx 服务相关日志。</p>
+</li>
+<li>
+<p><strong>步骤三</strong>：在该目录下新建 nginx-service.xml 文件，写入配置信息，配置好了之后就可以通过这个将 Nginx 注册为 Windows 服务了。</p>
+</li>
+</ul>
+<p>文件配置内容如下：重点包括三个，日志文件位置、启动命令、关闭命令；我 nginx 目录为：<code>D:\work\nginx\nginx-1.18.0</code>，同学们根据自己的目录作相应修改。</p>
+<pre><code>&lt;!-- nginx-service.xml --&gt;
+&lt;service&gt;
+    &lt;id&gt;nginx&lt;/id&gt;
+    &lt;name&gt;nginx&lt;/name&gt;
+    &lt;description&gt;nginx&lt;/description&gt;
+    &lt;logpath&gt;D:\work\nginx\nginx-1.18.0\server-logs\&lt;/logpath&gt;
+    &lt;logmode&gt;roll&lt;/logmode&gt;
+    &lt;depend&gt;&lt;/depend&gt;
+    &lt;executable&gt;D:\work\nginx\nginx-1.18.0\nginx.exe&lt;/executable&gt;
+    &lt;stopexecutable&gt;D:\work\nginx\nginx-1.18.0\nginx.exe -s stop&lt;/stopexecutable&gt;
+&lt;/service&gt;
+</code></pre>
+<h3 id="3-把-nginx-加入到-windows-服务中">3、把 nginx 加入到 windows 服务中</h3>
+<p>以上内容配置好了之后，在 nginx 安装目录下以管理员运行命令：<code>.\nginx-service.exe install</code> 就成功将其注册为 Windows 服务了。这时我们就可以在 Windows 任务管理器的服务中查看到 nginx 服务了。<br>
+<img src="https://cdn.jsdelivr.net/gh/1134642046/ImageBed/JavaLearn/20210510171746707.png" alt="" loading="lazy"></p>
+<p>后续修改 windows 服务的流程同学们应该都清楚了，将启动方式改成自动即可；<br>
+<img src="https://cdn.jsdelivr.net/gh/1134642046/ImageBed/JavaLearn/20210510171912942.png" alt="" loading="lazy"></p>
+<p>然后启动 nginx 服务<br>
+<img src="https://cdn.jsdelivr.net/gh/1134642046/ImageBed/JavaLearn/20210510172007508.png" alt="" loading="lazy"></p>
+<p>启动后通过<code>http://localhost:80</code> 或 命令 <code>tasklist /fi &quot;imagename eq nginx.exe&quot;</code> 检查是否启动成功</p>
+<figure data-type="image" tabindex="2"><img src="https://cdn.jsdelivr.net/gh/1134642046/ImageBed/JavaLearn/20210510172028928.png" alt="" loading="lazy"></figure>
+<p>附：工具其他命令</p>
+<table><thead><tr><th align="left">效果</th><th align="left">命令</th></tr></thead><tbody><tr><td align="left">注册系统服务命令</td><td align="left">nginx-service.exe install</td></tr><tr><td align="left">删除已注册的系统服务命令</td><td align="left">nginx-service.exe uninstall</td></tr><tr><td align="left">停止对应的系统服务命令</td><td align="left">nginx-service.exe stop</td></tr><tr><td align="left">启动对应的系统服务命令</td><td align="left">nginx-service.exe start</td></tr></tbody></table>
+<h1 id="2-java项目">2、Java项目</h1>
+<h3 id="1-下载-winswexe-和-xml注意可能需要安装-net-framework4">1. 下载 winsw.exe 和. xml(注意：可能需要安装 .net framework4)</h3>
+<p>地址：<a href="https://github.com/winsw/winsw/releases">https://github.com/winsw/winsw/releases</a></p>
+<figure data-type="image" tabindex="3"><img src="https://cdn.jsdelivr.net/gh/1134642046/ImageBed/JavaLearn/20191108114411173.png" alt="" loading="lazy"></figure>
+<h3 id="2-与-jar-包同路径同名改名-exe-与-xml-并配置-xxxxml">2. 与 jar 包同路径，同名，改名. exe 与. xml 并配置 xxx.xml</h3>
+<p>配置说明 :https://github.com/kohsuke/winsw/blob/master/doc/xmlConfigFile.md</p>
+<p>我的配置:</p>
+<pre><code>&lt;service&gt;
+  &lt;!-- ID of the service. It should be unique accross the Windows system--&gt;
+    &lt;!--服务ID：启动、关闭、删除服务时，都是通过ID来操作的--&gt;
+  &lt;id&gt;file-service&lt;/id&gt;
+  &lt;!-- Display name of the service --&gt;
+  &lt;name&gt;file-service&lt;/name&gt;
+  &lt;!-- Service description --&gt;
+  &lt;description&gt;fileservice&lt;/description&gt;
+  
+  &lt;!-- Path to the executable, which should be started --&gt;
+    &lt;!--当前电脑配置了java环境变量，直接写成“java”就行；你也可以写成类似这样：D:\develop\jdk1.8\jre\bin\java--&gt;
+  &lt;executable&gt;java&lt;/executable&gt;
+    &lt;!--&lt;arguments&gt;-jar &quot;C:\Users\Administrator\Desktop\winsw\statement-0.0.1-SNAPSHOT.jar&quot;&lt;/arguments&gt;--&gt;
+  &lt;arguments&gt;-jar file-service.jar -Xms512M -Xmx512M&lt;/arguments&gt;
+ 
+  &lt;!--
+    OPTION: onfailure
+    Defines a sequence of actions, which should be performed if the managed executable fails.
+    Supported actions: restart, reboot, none
+  --&gt;
+  &lt;onfailure action=&quot;restart&quot; delay=&quot;10 sec&quot;/&gt;
+  &lt;onfailure action=&quot;restart&quot; delay=&quot;20 sec&quot;/&gt;
+  &lt;!--
+    OPTION: resetfailure
+    Time, after which the Windows service resets the failure status.
+    Default value: 1 day
+  --&gt;
+  &lt;resetfailure&gt;1 hour&lt;/resetfailure&gt;
+  &lt;!--
+    OPTION: priority
+    Desired process priority.
+    Possible values: Normal, Idle, High, RealTime, BelowNormal, AboveNormal
+    Default value: Normal
+  --&gt;
+  &lt;priority&gt;Normal&lt;/priority&gt;
+  
+  &lt;!-- 
+    OPTION: stoptimeout
+    Time to wait for the service to gracefully shutdown the executable before we forcibly kill it
+    Default value: 15 seconds
+  --&gt;
+  &lt;stoptimeout&gt;15 sec&lt;/stoptimeout&gt;
+    
+  &lt;!--
+    OPTION: stopparentprocessfirst
+    If set, WinSW will terminate the parent process before stopping the children.
+    Default value: false
+  --&gt;
+  &lt;stopparentprocessfirst&gt;false&lt;/stopparentprocessfirst&gt;
+ 
+    &lt;!--
+      OPTION: startmode
+      Defines start mode of the service.
+      Supported modes: Automatic, Manual, Boot, System (latter ones are supported for driver services only)
+      Default mode: Automatic
+    --&gt;
+    &lt;startmode&gt;Automatic&lt;/startmode&gt;
+    &lt;waithint&gt;15 sec&lt;/waithint&gt;
+    &lt;sleeptime&gt;1 sec&lt;/sleeptime&gt;
+  &lt;log mode=&quot;roll-by-size&quot;&gt;
+  &lt;sizeThreshold&gt;10240&lt;/sizeThreshold&gt;
+  &lt;keepFiles&gt;8&lt;/keepFiles&gt;
+&lt;/log&gt;
+&lt;/service&gt;
+</code></pre>
+<figure data-type="image" tabindex="4"><img src="https://cdn.jsdelivr.net/gh/1134642046/ImageBed/JavaLearn/20191108114427356.png" alt="" loading="lazy"></figure>
+<h3 id="3cmd-命令行输入-xxxexe-install-安装服务">3.cmd 命令行，输入 xxx.exe install 安装服务</h3>
+<figure data-type="image" tabindex="5"><img src="https://cdn.jsdelivr.net/gh/1134642046/ImageBed/JavaLearn/2019110811443395.png" alt="" loading="lazy"></figure>
+<p>如果权限不足，需要进入 c:\windows\System32 目录下，用管理员权限运行 cmd</p>
+<h3 id="4net-start-xxx-启动服务">4.net start xxx 启动服务</h3>
+<figure data-type="image" tabindex="6"><img src="https://cdn.jsdelivr.net/gh/1134642046/ImageBed/JavaLearn/20191108114441613.png" alt="" loading="lazy"></figure>
+<p>net stop xxx 关闭服务</p>
+<p>sc delete xxx 删除服务</p>
+<p>参考资料:</p>
+<p><a href="https://blog.csdn.net/lee008108/article/details/78713385">https://blog.csdn.net/lee008108/article/details/78713385</a></p>
+<p><a href="https://blog.csdn.net/Pruett/article/details/92813229">https://blog.csdn.net/Pruett/article/details/92813229</a></p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[ElementUI 树形控件使用setCheckedKeys未定义]]></title>
         <id>https://Eakamm.github.io/post/elementui-shu-xing-kong-jian-shi-yong-setcheckedkeys-wei-ding-yi/</id>
@@ -546,150 +684,6 @@ public class VoteDetailRelVo {
 <p>3、如果首字母大写，也是属性名直接用作 getter/setter 方法中 get/set 的后部分。例如属性名为Name，方法是getName/setName，这种是最糟糕的情况，会找不到属性出错，因为默认的属性名是name。</p>
 <p>所以Lombok生成的的get/set方法会出现问题。<br>
 详解可见https://www.cnblogs.com/sunTin/p/7172932.html</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Java 常用时间比较方式]]></title>
-        <id>https://Eakamm.github.io/post/java-chang-yong-shi-jian-bi-jiao-fang-shi/</id>
-        <link href="https://Eakamm.github.io/post/java-chang-yong-shi-jian-bi-jiao-fang-shi/">
-        </link>
-        <updated>2020-10-19T08:23:13.000Z</updated>
-        <summary type="html"><![CDATA[<p>本文将描述在java中进行日期时间比较的4种方法</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>本文将描述在java中进行日期时间比较的4种方法</p>
-<!-- more -->
-<p><a href="https://c.lanmit.com/bianchengkaifa/Java/59964.html">本文地址：</a><br>
-&gt; 本文由 [简悦 SimpRead](http://ksria.com/simpread/) 转码， 原文地址 [c.lanmit.com](https://c.lanmit.com/bianchengkaifa/Java/59964.html)</p>
-<p>本文将为您描述在 java 中进行日期时间比较的 4 种方法, 教程操作步骤:</p>
-<ol>
-<li>Date.compareTo（）</li>
-</ol>
-<p><code>java.util.Date</code>提供了在 Java 中比较两个日期的经典方法 compareTo（）。</p>
-<p>如果两个日期相等，则返回值为 0。 如果 Date 在 date 参数之后，则返回值大于 0。 如果 Date 在 date 参数之前，则返回值小于 0。</p>
-<pre><code>@Test
-void testDateCompare() throws ParseException {
-  SimpleDateFormat sdf = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);
-  Date date1 = sdf.parse(&quot;2009-12-31&quot;);
-  Date date2 = sdf.parse(&quot;2019-01-31&quot;);
-
-  System.out.println(&quot;date1 : &quot; + sdf.format(date1));
-  System.out.println(&quot;date2 : &quot; + sdf.format(date2));
-
-  if (date1.compareTo(date2) &gt; 0) {
-    System.out.println(&quot;Date1 时间在 Date2 之后&quot;);
-  } else if (date1.compareTo(date2) &lt; 0) {
-    System.out.println(&quot;Date1 时间在 Date2 之前&quot;);
-  } else if (date1.compareTo(date2) == 0) {
-    System.out.println(&quot;Date1 时间与 Date2 相等&quot;);
-  } else {
-    System.out.println(&quot;程序怎么会运行到这里?正常应该不会&quot;);
-  }
-}
-</code></pre>
-<p>输出结果：</p>
-<pre><code>date1 : 2009-12-31
-date2 : 2019-01-31
-Date1 时间在 Date2 之前
-</code></pre>
-<ol start="2">
-<li>Date.before（），Date.after（）和 Date.equals（）</li>
-</ol>
-<p>一种语义上比较友好的方法来比较两个<code>java.util.Date</code></p>
-<pre><code>@Test
-void testDateCompare2() throws ParseException {
-  SimpleDateFormat sdf = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);
-  Date date1 = sdf.parse(&quot;2009-12-31&quot;);
-  Date date2 = sdf.parse(&quot;2019-01-31&quot;);
-
-  System.out.println(&quot;date1 : &quot; + sdf.format(date1));
-  System.out.println(&quot;date2 : &quot; + sdf.format(date2));
-
-  if (date1.after(date2)) {
-    System.out.println(&quot;Date1 时间在 Date2 之后&quot;);
-  }
-
-  if (date1.before(date2)) {
-    System.out.println(&quot;Date1 时间在 Date2 之前&quot;);
-  }
-
-  if (date1.equals(date2)) {
-    System.out.println(&quot;Date1 时间与 Date2 相等&quot;);
-  }
-}
-</code></pre>
-<p>输出结果</p>
-<pre><code>date1 : 2009-12-31
-date2 : 2019-01-31
-Date1 时间在 Date2 之前
-</code></pre>
-<ol start="3">
-<li>Calender.before（），Calender.after（）和 Calender.equals（）</li>
-</ol>
-<p>使用<code>java.util.Calendar</code>比较两个 Date 日期</p>
-<pre><code>@Test
-void testDateCompare3() throws ParseException {
-  SimpleDateFormat sdf = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);
-  Date date1 = sdf.parse(&quot;2009-12-31&quot;);
-  Date date2 = sdf.parse(&quot;2019-01-31&quot;);
-
-  System.out.println(&quot;date1 : &quot; + sdf.format(date1));
-  System.out.println(&quot;date2 : &quot; + sdf.format(date2));
-
-  Calendar cal1 = Calendar.getInstance();
-  Calendar cal2 = Calendar.getInstance();
-  cal1.setTime(date1);
-  cal2.setTime(date2);
-
-  if (cal1.after(cal2)) {
-    System.out.println(&quot;Date1 时间在 Date2 之后&quot;);
-  }
-
-  if (cal1.before(cal2)) {
-    System.out.println(&quot;Date1 时间在 Date2 之前&quot;);
-  }
-
-  if (cal1.equals(cal2)) {
-    System.out.println(&quot;Date1 时间与 Date2 相等&quot;);
-  }
-}
-</code></pre>
-<p>输出结果：</p>
-<pre><code>date1 : 2009-12-31
-date2 : 2019-01-31
-Date1 时间在 Date2 之前
-</code></pre>
-<p>4. Java 8 日期比较方法</p>
-<p>在 Java 8 中，可以使用新的 isBefore（），isAfter（），isEqual（）和 compareTo（）来比较 LocalDate，LocalTime 和 LocalDateTime。以下示例以比较两个<code>java.time.LocalDate</code></p>
-<pre><code>@Test
-void testDateCompare4() throws ParseException {
-  DateTimeFormatter sdf = DateTimeFormatter.ofPattern(&quot;yyyy-MM-dd&quot;);
-  LocalDate date1 = LocalDate.of(2009, 12, 31);
-  LocalDate date2 = LocalDate.of(2019, 1, 31);
-
-  System.out.println(&quot;date1 : &quot; + sdf.format(date1));
-  System.out.println(&quot;date2 : &quot; + sdf.format(date2));
-
-  System.out.println(&quot;Is...&quot;);
-  if (date1.isAfter(date2)) {
-    System.out.println(&quot;Date1 时间在 Date2 之后&quot;);
-  }
-
-  if (date1.isBefore(date2)) {
-    System.out.println(&quot;Date1 时间在 Date2 之前&quot;);
-  }
-
-  if (date1.isEqual(date2)) {
-    System.out.println(&quot;Date1 时间与 Date2 相等&quot;);
-  }
-}
-</code></pre>
-<p>输出结果</p>
-<pre><code>date1 : 2009-12-31
-date2 : 2019-01-31
-Is...
-Date1 时间在 Date2 之前
-</code></pre>
-<p>本文地址：https://c.lanmit.com/bianchengkaifa/Java/59964.html</p>
 ]]></content>
     </entry>
 </feed>

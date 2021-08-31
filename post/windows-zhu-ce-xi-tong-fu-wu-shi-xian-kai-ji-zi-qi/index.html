@@ -1,9 +1,8 @@
-<!doctype html>
 <html>
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>我的阅读 | 刘志豪的博客</title>
+<title>windows注册系统服务（实现开机自启） | 刘志豪的博客</title>
 <meta name="description" content="温故而知新" />
 <link rel="shortcut icon" href="https://Eakamm.github.io/favicon.ico">
 <link rel="stylesheet" href="https://Eakamm.github.io/styles/main.css">
@@ -16,13 +15,15 @@
 <script src="https://Eakamm.github.io/media/js/jquery.magnific-popup.min.js"></script>
 <script src="https://Eakamm.github.io/media/js/functions.js"></script>
     <meta name="referrer" content="never">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/iMuFeng/bmdb@1.8.0/dist/Bmdb.min.css">
-    <script type='text/javascript' src='https://cdn.jsdelivr.net/gh/iMuFeng/bmdb@1.8.0/dist/Bmdb.min.js'></script>
+    <meta name="description" content="1、nginx
+我们借助 Windows Service Wrapper 小工具，将 Nginx 转换为 Windows 服务，在服务中心配置自启动，从而在开机时 windows 自行启动 Nginx 服务。
+1、自启动工具下载
+工具下载 ..." />
+    <meta name="keywords" content="部署" />
+    <script src="https://Eakamm.github.io/media/js/waterfall.min.js"></script>
+    <script src="https://Eakamm.github.io/media/js/prism.min.js"></script>
   </head>
   <body>
-    <!-- start: #wrapper -->
-    <div class="wrapper">
-      
             <header id="header" class="grid-container">
         <!-- start: .menu-wrapper -->
         <div class="menu-mobile"> 
@@ -89,14 +90,223 @@
         </div>
       </div>
 
-      <main id="friends" class="main fullcover no-sidebar content">
-        <div class="grid-container module-wrapper enable-masonry aos-init aos-animate" data-aos="fade-up">
+      <main id="single" class="main grid-container fullcover no-sidebar aos-init aos-animate" data-aos="fade">
+
+        <div class="center content">
+          <div class="featured-image cover" style="background-image: url('/media/images/gridea.jpg');">
+            <div class="meta top"> 
+              <time class="meta-info" style="float:left;" datetime="2021-08-31"><i class="fa fa-calendar"></i><span class="lately">9 分钟前</span></time>
+              
+              <a href="https://Eakamm.github.io/post/windows-zhu-ce-xi-tong-fu-wu-shi-xian-kai-ji-zi-qi/#comments" class="comments meta-info" title="">
+                <i class="fa fa-comment remixicon"></i><span class="comment-count valine-comment-count" data-xid="/windows-zhu-ce-xi-tong-fu-wu-shi-xian-kai-ji-zi-qi/"> </span>
+              </a>
+              <span id="/windows-zhu-ce-xi-tong-fu-wu-shi-xian-kai-ji-zi-qi/" class="leancloud_visitors views-counter meta-info" title=""><i class="fa fa-leancloud remixicon"></i><span class="leancloud-visitors-count"></span></span>
+              
+            </div>
+            <div class="info">
+              <div class="tags ">
+                
+                      <a href="https://Eakamm.github.io/tag/k37nSTCoN/" class="ctag ctag-0 ctag-k37nSTCoN" aria-label="">部署</a>
+                    
+              </div>
+              <h1 class="title ularge white bold">windows注册系统服务（实现开机自启）</h1>
+            </div>
+          </div>
+        </div>  
+
         <div class="epcl-page-wrapper">
-          <div class="section-content" style="margin-top:3em;"></div>
-        </div>
-        </div>
+          <div class="left-content grid-70 np-mobile">
+            <article class="main-article post">
+              <section class="post-content">
+                <div class="text">
+                  <h1 id="1-nginx">1、nginx</h1>
+<p>我们借助 Windows Service Wrapper 小工具，将 Nginx 转换为 Windows 服务，在服务中心配置自启动，从而在开机时 windows 自行启动 Nginx 服务。</p>
+<h3 id="1-自启动工具下载">1、自启动工具下载</h3>
+<p>工具下载 URL：<a href="https://github.com/winsw/winsw/releases">https://github.com/winsw/winsw/releases</a></p>
+<p>如下图，为<code>windows32位和64位</code>的工具文件</p>
+<figure data-type="image" tabindex="1"><img src="E:%5CPictures%5CImageBed%5C20210510172312682.png" alt="" loading="lazy"></figure>
+<p>上面 github 需要外网访问比较快，没有外网的同学们，我也给你们下好了，自行下载吧~</p>
+<ul>
+<li>32 位：<a href="https://pan.baidu.com/s/1gofHYQTxDmLhytKyBl928g">WinSW-x86.exe （提取码：0915）</a></li>
+<li>64 位：<a href="https://pan.baidu.com/s/1gofHYQTxDmLhytKyBl928g">WinSW-x64.exe （提取码：0915）</a></li>
+</ul>
+<h3 id="2-自启动工具安装">2、自启动工具安装</h3>
+<ul>
+<li>
+<p><strong>步骤一</strong>：下载后将该工具放入 Nginx 的安装目录下，并且将其<code>重命名为 nginx-service.exe</code> ；</p>
+</li>
+<li>
+<p><strong>步骤二</strong>：在 nginx 安装目录下新建服务日志文件夹 server-logs 文件夹, 用来存放 nginx 服务相关日志。</p>
+</li>
+<li>
+<p><strong>步骤三</strong>：在该目录下新建 nginx-service.xml 文件，写入配置信息，配置好了之后就可以通过这个将 Nginx 注册为 Windows 服务了。</p>
+</li>
+</ul>
+<p>文件配置内容如下：重点包括三个，日志文件位置、启动命令、关闭命令；我 nginx 目录为：<code>D:\work\nginx\nginx-1.18.0</code>，同学们根据自己的目录作相应修改。</p>
+<pre><code>&lt;!-- nginx-service.xml --&gt;
+&lt;service&gt;
+    &lt;id&gt;nginx&lt;/id&gt;
+    &lt;name&gt;nginx&lt;/name&gt;
+    &lt;description&gt;nginx&lt;/description&gt;
+    &lt;logpath&gt;D:\work\nginx\nginx-1.18.0\server-logs\&lt;/logpath&gt;
+    &lt;logmode&gt;roll&lt;/logmode&gt;
+    &lt;depend&gt;&lt;/depend&gt;
+    &lt;executable&gt;D:\work\nginx\nginx-1.18.0\nginx.exe&lt;/executable&gt;
+    &lt;stopexecutable&gt;D:\work\nginx\nginx-1.18.0\nginx.exe -s stop&lt;/stopexecutable&gt;
+&lt;/service&gt;
+</code></pre>
+<h3 id="3-把-nginx-加入到-windows-服务中">3、把 nginx 加入到 windows 服务中</h3>
+<p>以上内容配置好了之后，在 nginx 安装目录下以管理员运行命令：<code>.\nginx-service.exe install</code> 就成功将其注册为 Windows 服务了。这时我们就可以在 Windows 任务管理器的服务中查看到 nginx 服务了。<br>
+<img src="https://cdn.jsdelivr.net/gh/1134642046/ImageBed/JavaLearn/20210510171746707.png" alt="" loading="lazy"></p>
+<p>后续修改 windows 服务的流程同学们应该都清楚了，将启动方式改成自动即可；<br>
+<img src="https://cdn.jsdelivr.net/gh/1134642046/ImageBed/JavaLearn/20210510171912942.png" alt="" loading="lazy"></p>
+<p>然后启动 nginx 服务<br>
+<img src="https://cdn.jsdelivr.net/gh/1134642046/ImageBed/JavaLearn/20210510172007508.png" alt="" loading="lazy"></p>
+<p>启动后通过<code>http://localhost:80</code> 或 命令 <code>tasklist /fi &quot;imagename eq nginx.exe&quot;</code> 检查是否启动成功</p>
+<figure data-type="image" tabindex="2"><img src="https://cdn.jsdelivr.net/gh/1134642046/ImageBed/JavaLearn/20210510172028928.png" alt="" loading="lazy"></figure>
+<p>附：工具其他命令</p>
+<table><thead><tr><th align="left">效果</th><th align="left">命令</th></tr></thead><tbody><tr><td align="left">注册系统服务命令</td><td align="left">nginx-service.exe install</td></tr><tr><td align="left">删除已注册的系统服务命令</td><td align="left">nginx-service.exe uninstall</td></tr><tr><td align="left">停止对应的系统服务命令</td><td align="left">nginx-service.exe stop</td></tr><tr><td align="left">启动对应的系统服务命令</td><td align="left">nginx-service.exe start</td></tr></tbody></table>
+<h1 id="2-java项目">2、Java项目</h1>
+<h3 id="1-下载-winswexe-和-xml注意可能需要安装-net-framework4">1. 下载 winsw.exe 和. xml(注意：可能需要安装 .net framework4)</h3>
+<p>地址：<a href="https://github.com/winsw/winsw/releases">https://github.com/winsw/winsw/releases</a></p>
+<figure data-type="image" tabindex="3"><img src="https://cdn.jsdelivr.net/gh/1134642046/ImageBed/JavaLearn/20191108114411173.png" alt="" loading="lazy"></figure>
+<h3 id="2-与-jar-包同路径同名改名-exe-与-xml-并配置-xxxxml">2. 与 jar 包同路径，同名，改名. exe 与. xml 并配置 xxx.xml</h3>
+<p>配置说明 :https://github.com/kohsuke/winsw/blob/master/doc/xmlConfigFile.md</p>
+<p>我的配置:</p>
+<pre><code>&lt;service&gt;
+  &lt;!-- ID of the service. It should be unique accross the Windows system--&gt;
+    &lt;!--服务ID：启动、关闭、删除服务时，都是通过ID来操作的--&gt;
+  &lt;id&gt;file-service&lt;/id&gt;
+  &lt;!-- Display name of the service --&gt;
+  &lt;name&gt;file-service&lt;/name&gt;
+  &lt;!-- Service description --&gt;
+  &lt;description&gt;fileservice&lt;/description&gt;
+  
+  &lt;!-- Path to the executable, which should be started --&gt;
+    &lt;!--当前电脑配置了java环境变量，直接写成“java”就行；你也可以写成类似这样：D:\develop\jdk1.8\jre\bin\java--&gt;
+  &lt;executable&gt;java&lt;/executable&gt;
+    &lt;!--&lt;arguments&gt;-jar &quot;C:\Users\Administrator\Desktop\winsw\statement-0.0.1-SNAPSHOT.jar&quot;&lt;/arguments&gt;--&gt;
+  &lt;arguments&gt;-jar file-service.jar -Xms512M -Xmx512M&lt;/arguments&gt;
+ 
+  &lt;!--
+    OPTION: onfailure
+    Defines a sequence of actions, which should be performed if the managed executable fails.
+    Supported actions: restart, reboot, none
+  --&gt;
+  &lt;onfailure action=&quot;restart&quot; delay=&quot;10 sec&quot;/&gt;
+  &lt;onfailure action=&quot;restart&quot; delay=&quot;20 sec&quot;/&gt;
+  &lt;!--
+    OPTION: resetfailure
+    Time, after which the Windows service resets the failure status.
+    Default value: 1 day
+  --&gt;
+  &lt;resetfailure&gt;1 hour&lt;/resetfailure&gt;
+  &lt;!--
+    OPTION: priority
+    Desired process priority.
+    Possible values: Normal, Idle, High, RealTime, BelowNormal, AboveNormal
+    Default value: Normal
+  --&gt;
+  &lt;priority&gt;Normal&lt;/priority&gt;
+  
+  &lt;!-- 
+    OPTION: stoptimeout
+    Time to wait for the service to gracefully shutdown the executable before we forcibly kill it
+    Default value: 15 seconds
+  --&gt;
+  &lt;stoptimeout&gt;15 sec&lt;/stoptimeout&gt;
+    
+  &lt;!--
+    OPTION: stopparentprocessfirst
+    If set, WinSW will terminate the parent process before stopping the children.
+    Default value: false
+  --&gt;
+  &lt;stopparentprocessfirst&gt;false&lt;/stopparentprocessfirst&gt;
+ 
+    &lt;!--
+      OPTION: startmode
+      Defines start mode of the service.
+      Supported modes: Automatic, Manual, Boot, System (latter ones are supported for driver services only)
+      Default mode: Automatic
+    --&gt;
+    &lt;startmode&gt;Automatic&lt;/startmode&gt;
+    &lt;waithint&gt;15 sec&lt;/waithint&gt;
+    &lt;sleeptime&gt;1 sec&lt;/sleeptime&gt;
+  &lt;log mode=&quot;roll-by-size&quot;&gt;
+  &lt;sizeThreshold&gt;10240&lt;/sizeThreshold&gt;
+  &lt;keepFiles&gt;8&lt;/keepFiles&gt;
+&lt;/log&gt;
+&lt;/service&gt;
+</code></pre>
+<figure data-type="image" tabindex="4"><img src="https://cdn.jsdelivr.net/gh/1134642046/ImageBed/JavaLearn/20191108114427356.png" alt="" loading="lazy"></figure>
+<h3 id="3cmd-命令行输入-xxxexe-install-安装服务">3.cmd 命令行，输入 xxx.exe install 安装服务</h3>
+<figure data-type="image" tabindex="5"><img src="https://cdn.jsdelivr.net/gh/1134642046/ImageBed/JavaLearn/2019110811443395.png" alt="" loading="lazy"></figure>
+<p>如果权限不足，需要进入 c:\windows\System32 目录下，用管理员权限运行 cmd</p>
+<h3 id="4net-start-xxx-启动服务">4.net start xxx 启动服务</h3>
+<figure data-type="image" tabindex="6"><img src="https://cdn.jsdelivr.net/gh/1134642046/ImageBed/JavaLearn/20191108114441613.png" alt="" loading="lazy"></figure>
+<p>net stop xxx 关闭服务</p>
+<p>sc delete xxx 删除服务</p>
+<p>参考资料:</p>
+<p><a href="https://blog.csdn.net/lee008108/article/details/78713385">https://blog.csdn.net/lee008108/article/details/78713385</a></p>
+<p><a href="https://blog.csdn.net/Pruett/article/details/92813229">https://blog.csdn.net/Pruett/article/details/92813229</a></p>
+
+                </div>
+                <div class="clear"></div>
+              </section>
+            </article>
+            <div class="clear"></div>
+
+            <section class="related section">
+              
+              
+              <article class="next grid-50 tablet-grid-50 grid-parent">
+                <div class="thumb cover lazy loaded" style="background-image: url('https://Eakamm.github.io/media/images/1mJVzpev5.jpg');"></div>
+                 <a href="https://Eakamm.github.io/post/elementui-shu-xing-kong-jian-shi-yong-setcheckedkeys-wei-ding-yi/" class="full-link"></a>
+                 <div class="info">
+                  <time datetime="2021-04-30">2021-04-30</time>
+                  <h4 class="title white no-margin">ElementUI 树形控件使用setCheckedKeys未定义</h4>
+                </div>
+                 <span class="epcl-button red">
+                  <img src="https://Eakamm.github.io/media/images/right-arrow.svg" width="15" alt="Left Arrow">
+                </span>
+                <div class="overlay"></div>
+              </article>
+              
+
+                <div class="clear"></div>
+            </section>
+
+              <div class="clear"></div>
+              
+            
+              <div id="comments" class="bg-white hosted ">
+                <div class="clear"></div>
+<script>
+jQuery(document).ready(function($){
+    $('.vemoji-btn').text('😀');
+    $("#comments").on('click', 'span.vat',function(){
+        $(this).parent('div.vmeta').next("div.vcontent").after($("div.vwrap"));
+        $('textarea#veditor').focus();
+    })
+    if(window.location.hash){
+        var checkExist = setInterval(function() {
+            if ($(window.location.hash).length) {
+                $('html, body').animate({scrollTop: $(window.location.hash).offset().top-200}, 600);
+                clearInterval(checkExist);
+            }
+        }, 100);
+    }
+})
+</script>
+
+              </div>
+            
+
+            </div>
+          </div>
       </main>
-        <footer id="footer" class="grid-container">
+
+          <footer id="footer" class="grid-container">
         <div class="widgets row gradient-effect">
             <div class="default-sidebar border-effect">
               <div class="grid-33 tablet-grid-50 mobile-grid-100">
@@ -306,15 +516,9 @@
 </script>
     
 
-    <script>
-    new Bmdb({
-      type: 'books',
-      selector: '.section-content',
-      secret: '',
-      noMoreText: '没有更多数据了',
-      limit: 30
-    })
-    </script>
+      
+    <script src="https://Eakamm.github.io/media/js/functions-post.js"></script>
+
     </div>
     <!-- end: #wrapper -->
   </body>
